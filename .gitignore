@@ -1,3 +1,9 @@
+
+/.myeclipse/
+/.settings/
+.mymetadata
+.project
+
 # Windows image file caches
 Thumbs.db
 ehthumbs.db

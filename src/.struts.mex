@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Struts2Diagram version="2.0">
+  <package name="mainPackage" location="226,-102" size="858,1249">
+    <action name="loginAction" location="662,962" size="150,62">
+      <result name="success">
+        <resourceEdge source="success" routing="0" target="home.jsp" />
+      </result>
+      <result name="input">
+        <resourceEdge source="input" routing="0" target="login.jsp" />
+      </result>
+    </action>
+    <action name="checkInAction" location="117,426" size="156,41">
+      <result name="info">
+        <resourceEdge source="info" routing="0" target="requestResult.jsp" />
+      </result>
+    </action>
+    <action name="updateCheckInInfoAction" location="75,498" size="169,41">
+      <result name="info">
+        <resourceEdge source="info" routing="0" target="requestResult.jsp" />
+      </result>
+    </action>
+    <action name="addOrderAction" location="67,703" size="165,62">
+      <result name="info">
+        <resourceEdge source="info" routing="0" target="requestResult.jsp" />
+      </result>
+      <result name="updateOrderSuccess" />
+    </action>
+    <action name="*ActionForRoom" location="68,557" size="200,83">
+      <result name="addRoomResult">
+        <resourceEdge source="addRoomResult" routing="0" target="requestResult.jsp" />
+      </result>
+      <result name="requestChangeRoomStateSuccess">
+        <resourceEdge source="requestChangeRoomStateSuccess" routing="0" target="requestResult.jsp" />
+      </result>
+      <result name="changeRoomTypeResult">
+        <resourceEdge source="changeRoomTypeResult" routing="0" target="requestResult.jsp" />
+      </result>
+    </action>
+    <action name="orderQueryAction" location="672,808" size="150,62">
+      <result name="success">
+        <resourceEdge source="success" routing="0" target="queryOrder.jsp" />
+      </result>
+      <result name="delOrderSuccess">
+        <resourceEdge source="delOrderSuccess" routing="0" target="orderQueryAction" namespace="/main" />
+      </result>
+    </action>
+    <action name="requestRoomAction" location="362,379" size="161,41">
+      <result name="requestRoomSuccess" />
+    </action>
+    <action name="requestRoomTypeListAction" location="343,512" size="205,41">
+      <result name="requestRoomTypeListSuccess" />
+    </action>
+    <action name="requestOrderAction" location="378,457" size="167,41">
+      <result name="success" />
+    </action>
+    <action name="checkInInfoManagerAction" location="626,1120" size="204,62">
+      <result name="queryCheckInInfoSuccess">
+        <resourceEdge source="queryCheckInInfoSuccess" routing="0" target="queryCheckIn.jsp" />
+      </result>
+      <result name="delCheckInInfoSuccess">
+        <resourceEdge source="delCheckInInfoSuccess" routing="0" target="checkInInfoManagerAction" namespace="/main" />
+      </result>
+    </action>
+    <action name="*ActionForBalance" location="254,770" size="277,272">
+      <result name="requestDelAccountInRoomActionSuccess" />
+      <result name="requestDelAccountInSumActionSuccess" />
+      <result name="requestDelAccountInHadCheckOutActionSuccess" />
+      <result name="requestBalanceDetailSuccess">
+        <resourceEdge source="requestBalanceDetailSuccess" routing="0" target="balanceDetail.jsp" />
+      </result>
+      <result name="requestBalanceDetailHadCheckOutSuccess">
+        <resourceEdge source="requestBalanceDetailHadCheckOutSuccess" routing="0" target="balanceDetailHadCheckOut.jsp" />
+      </result>
+      <result name="requestqueryAccountSumSuccess">
+        <resourceEdge source="requestqueryAccountSumSuccess" routing="0" target="queryAccountSum.jsp" />
+      </result>
+      <result name="requestAddBalanceSuccess">
+        <resourceEdge source="requestAddBalanceSuccess" routing="0" target="requestResult.jsp" />
+      </result>
+      <result name="requestConsumeSuccess">
+        <resourceEdge source="requestConsumeSuccess" routing="0" target="requestResult.jsp" />
+      </result>
+      <result name="requestConsumeFailed" />
+      <result name="requestAddBalanceFailed" />
+      <result name="requestBalanceDetailHadCheckOutFaild" />
+      <result name="resetRoomChargeActionSuccess" />
+    </action>
+    <action name="*Action" location="224,28" size="396,335">
+      <result name="requestAllRoomSuccess">
+        <resourceEdge source="requestAllRoomSuccess" routing="0" target="home.jsp" />
+      </result>
+      <result name="requestSwitchRoomSuccess">
+        <resourceEdge source="requestSwitchRoomSuccess" routing="0" target="requestResult.jsp" />
+      </result>
+      <result name="requestQueryOrderSuccess">
+        <resourceEdge source="requestQueryOrderSuccess" routing="0" target="orderQueryAction" namespace="/main" />
+      </result>
+      <result name="requestContinueCheckInSuccess">
+        <resourceEdge source="requestContinueCheckInSuccess" routing="0" target="requestResult.jsp" />
+      </result>
+      <result name="requestOrderForCheckInResult.jsp">
+        <resourceEdge source="requestOrderForCheckInResult.jsp" routing="0" target="requestOrderForCheckInResult.jsp" />
+      </result>
+      <result name="requestOrderResult.jsp">
+        <resourceEdge source="requestOrderResult.jsp" routing="0" target="requestOrderResult.jsp" />
+      </result>
+      <result name="requestQueryRoomSuccess">
+        <resourceEdge source="requestQueryRoomSuccess" routing="0" target="requestQueryRoom.jsp" />
+      </result>
+      <result name="requestTodayRoomStatisticsSuccess">
+        <resourceEdge source="requestTodayRoomStatisticsSuccess" routing="0" target="requestTodayRoomStatistics.jsp" />
+      </result>
+      <result name="requestRoomStatisticsSuccess">
+        <resourceEdge source="requestRoomStatisticsSuccess" routing="0" target="queryRoomStatistics.jsp" />
+      </result>
+      <result name="requestAddRoomTypeSuccess">
+        <resourceEdge source="requestAddRoomTypeSuccess" routing="0" target="requestResult.jsp" />
+      </result>
+      <result name="requestDelRoomTypeSuccess">
+        <resourceEdge source="requestDelRoomTypeSuccess" routing="0" target="requestResult.jsp" />
+      </result>
+      <result name="requestUpdateRoomTypeSuccess">
+        <resourceEdge source="requestUpdateRoomTypeSuccess" routing="0" target="requestResult.jsp" />
+      </result>
+      <result name="delOrderSuccess">
+        <resourceEdge source="delOrderSuccess" routing="0" target="requestResult.jsp" />
+      </result>
+      <result name="requestQueryEmptyRoomSuccess">
+        <resourceEdge source="requestQueryEmptyRoomSuccess" routing="0" target="requestQueryEmptyRoomResult.jsp" />
+      </result>
+      <result name="requestLoginOffSuccess">
+        <resourceEdge source="requestLoginOffSuccess" routing="0" target="home.jsp" />
+      </result>
+    </action>
+    <action name="*ActionForSetting" location="15,1060" size="147,62">
+      <result name="requestModifyPswResult" />
+      <result name="requetQueryAllAccountResult">
+        <resourceEdge source="requetQueryAllAccountResult" routing="0" target="settingAccount.jsp" />
+      </result>
+    </action>
+  </package>
+  <webResource name="home.jsp" path="/WEB-INF/home.jsp" location="1098,191" size="150,55" />
+  <webResource name="login.jsp" path="/main/login.jsp" location="1107,946" size="150,55" />
+  <webResource name="requestResult.jsp" path="/WEB-INF/requestResult.jsp" location="76,342" size="150,55" />
+  <webResource name="queryOrder.jsp" path="/WEB-INF/queryOrder.jsp" location="1094,772" size="150,55" />
+  <webResource name="requestRoomTypeListResult.jsp" path="/WEB-INF/requestRoomTypeListResult.jsp" location="382,1547" size="150,55" />
+  <webResource name="requestOrderForCheckInResult.jsp" path="/WEB-INF/requestOrderForCheckInResult.jsp" location="1085,285" size="150,55" />
+  <webResource name="requestOrderResult.jsp" path="/WEB-INF/requestOrderResult.jsp" location="1094,414" size="150,55" />
+  <webResource name="requestQueryRoom.jsp" path="/WEB-INF/requestQueryRoom.jsp" location="1101,344" size="150,55" />
+  <webResource name="accessOrderResult.jsp" path="/WEB-INF/accessOrderResult.jsp" location="605,1544" size="150,55" />
+  <webResource name="requestQueryEmptyRoomResult.jsp" path="/WEB-INF/requestQueryEmptyRoomResult.jsp" location="1067,533" size="150,55" />
+  <webResource name="home.jsp" path="/main/home.jsp" location="1102,878" size="150,55" />
+  <webResource name="balanceDetail.jsp" path="/WEB-INF/balanceDetail.jsp" location="369,1167" size="150,55" />
+  <webResource name="queryAccountSum.jsp" path="/WEB-INF/queryAccountSum.jsp" location="542,1174" size="150,55" />
+  <webResource name="requestTodayRoomStatistics.jsp" path="/WEB-INF/requestTodayRoomStatistics.jsp" location="1071,473" size="150,55" />
+  <webResource name="queryRoomStatistics.jsp" path="/main/queryRoomStatistics.jsp" location="140,1548" size="150,55" />
+  <webResource name="queryRoomStatistics.jsp" path="/WEB-INF/queryRoomStatistics.jsp" location="1056,684" size="150,55" />
+  <webResource name="queryCheckIn.jsp" path="/WEB-INF/queryCheckIn.jsp" location="1103,1092" size="150,55" />
+  <webResource name="balanceDetailHadCheckOut.jsp" path="/WEB-INF/balanceDetailHadCheckOut.jsp" location="789,1199" size="150,55" />
+  <webResource name="settingAccount.jsp" path="/main/setting/settingAccount.jsp" location="29,973" size="150,55" />
+</Struts2Diagram>
+
