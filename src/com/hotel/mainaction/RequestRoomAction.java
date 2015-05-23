@@ -50,7 +50,7 @@ public class RequestRoomAction extends ActionSupport
 		}
 		else
 			jsonForRoomState = null;
-		return "requestRoomSuccess";
+		return "info";
 	}
 
 	

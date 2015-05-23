@@ -17,7 +17,7 @@
   <body>
    initialing..... <br>
    
-    <s:form id="requestAllRoomForm" cssStyle="display:none" action="requestAllRoomAction" executeScripts="true" namespace="/main"  >
+    <s:form id="requestAllRoomForm" cssStyle="display:none" action="roomTrendAction" executeScripts="true" namespace="/main"  >
 			<s:submit id = "requestAllRoom_submit"  executeScripts="true"  formId="requestAllRoomForm"></s:submit>
 	</s:form>
   </body>

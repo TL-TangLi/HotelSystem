@@ -17,35 +17,13 @@ import com.hotel.entity.RoomPrice;
 import com.hotel.entity.RoomState;
 import com.hotel.staticdata.StaticData;
 import com.opensymphony.xwork2.ActionContext;
-import com.opensymphony.xwork2.ActionSupport;
 
-public class RequestAction extends ActionSupport 
+public class RequestAction extends BaseAction 
 {
 	private static final long serialVersionUID = 1L;
 	
-	Manager manager = Manager.getManager();
-	///全局 roomId 和 requestResutl 
-	//requestRoomAction requestAddBalanceAction requestChekOutAction requestChangeRoomAction 都要用到
-	private int roomId;
-	public int getRoomId()
-	{
-		return roomId;
-	}
-	public void setRoomId(int roomId)
-	{
-		this.roomId = roomId;
-	}
 	
-	private String requestResult;
-	public String getRequestResult()
-	{
-		return requestResult;
-	}
-	public void setRequestResult(String requestResult)
-	{
-		this.requestResult = requestResult;
-	}
-	/*----------------------------------------requestAllRoomAction-----------------------------------------*/
+	/*----------------------------------------roomTrend-----------------------------------------*/
 	private List<RoomState> list;
 	public List<RoomState> getList()
 	{
@@ -121,7 +99,7 @@ public class RequestAction extends ActionSupport
 	{
 		this.todayCheckIngRoomCount = todayCheckIngRoomCount;
 	}
-	public String requestAllRoom() 
+	public String roomTrend() 
 	{
 		Manager manager =  Manager.getManager();
 		try
@@ -161,7 +139,7 @@ public class RequestAction extends ActionSupport
 			 todayLeft = manager.countLeftRoom(StaticData.ROOM_TYPE_IGNORE,"now");
 			 request.setAttribute("todayLeft",todayLeft);
 			 
-			return "requestAllRoomSuccess";
+			return "roomTrend";
 		}
 		catch (Exception e)
 		{
@@ -172,78 +150,13 @@ public class RequestAction extends ActionSupport
 	
 	
 	
-//	/*----------------------------------------requestSwitchRoomAction-----------------------------------------*/
-	
-	private int targetId;
-	public int getTargetId()
-	{
-		return targetId;
-	}
-	public void setTargetId(int targetId)
-	{
-		this.targetId = targetId;
-	}
-	public String requestSwitchRoom()
-	{
-		requestResult = manager.switchRoom(roomId,targetId);
-		return "requestSwitchRoomSuccess";
-	}
 	
 	
+	/*----------------------------------------todayOrderSum-----------------------------------------*/
 	
-	/*----------------------------------------requestContinueCheckInAction-----------------------------------------*/
-	int continueDays;
-	public int getContinueDays()
-	{
-		return continueDays;
-	}
-	public void setContinueDays(int continueDays)
-	{
-		this.continueDays = continueDays;
-	}
-	public String requestContinueCheckIn()
-	{
-		requestResult =  manager.continueCheckIn(roomId,continueDays);
-		
-		return "requestContinueCheckInSuccess";
-	}
-	
-	
-	
-	
-	
-	/*----------------------------------------requestTodayOrderAction-----------------------------------------*/
-	//四个过滤器
 	int type = StaticData.ROOM_TYPE_IGNORE;
-	int info = Order.ORDER_TYPE_IGNORE;
 	String enterDate = null;
-	String orderDate;
-	//决定 action 执行完后 定位到 哪个资源 这是资源名！！！
-	String orientaionName ;
-	public String getOrientaionName()
-	{
-		return orientaionName;
-	}
-	public void setOrientaionName(String orientaionName)
-	{
-		this.orientaionName = orientaionName;
-	}
-	public int getType()
-	{
-		return type;
-	}
-	public void setType(int type)
-	{
-		this.type = type;
-	}
-	public int getInfo()
-	{
-		return info;
-	}
-	public void setInfo(int info)
-	{
-		this.info = info;
-	}
+	
 	public String getEnterDate()
 	{
 		return enterDate;
@@ -252,13 +165,13 @@ public class RequestAction extends ActionSupport
 	{
 		this.enterDate = enterDate;
 	}
-	public String getOrderDate()
+	public int getType()
 	{
-		return orderDate;
+		return type;
 	}
-	public void setOrderDate(String orderDate)
+	public void setType(int type)
 	{
-		this.orderDate = orderDate;
+		this.type = type;
 	}
 
 	List<RoomPrice> roomPriceList;
@@ -271,6 +184,37 @@ public class RequestAction extends ActionSupport
 		this.roomPriceList = roomPriceList;
 	}
 
+	String orderDate;
+	//决定 action 执行完后 定位到 哪个资源 这是资源名！！！
+	String orientaionName ;
+	int info = Order.ORDER_TYPE_IGNORE;
+
+	public int getInfo()
+	{
+		return info;
+	}
+
+	public void setInfo(int info)
+	{
+		this.info = info;
+	}
+	public String getOrientaionName()
+	{
+		return orientaionName;
+	}
+	public void setOrientaionName(String orientaionName)
+	{
+		this.orientaionName = orientaionName;
+	}
+	public String getOrderDate()
+	{
+		return orderDate;
+	}
+	public void setOrderDate(String orderDate)
+	{
+		this.orderDate = orderDate;
+	}
+
 	List<Order> listOrder;
 	public List<Order> getListOrder()
 	{
@@ -280,7 +224,7 @@ public class RequestAction extends ActionSupport
 	{
 		this.listOrder = listOrder;
 	}
-	public String requestTodayOrder()
+	public String todayOrderSum()
 	{
 		
 		//客户端 规定 如果不想用某个过滤器，如果该字段为int 指定为-1 如果为 String 指定为 ""
@@ -299,9 +243,7 @@ public class RequestAction extends ActionSupport
 	}
 	
 	
-	
-	
-	/*-----------------------------------requestQueryRoomAction（今日已入住的房间）-----------------------------------------*/
+	/*-----------------------------------todayRoomEntered（今日已入住的房间）-----------------------------------------*/
 	//和 以上的 type enterDate 组成 三个过滤器   
 	String outDate;
 	public String getOutDate()
@@ -322,7 +264,7 @@ public class RequestAction extends ActionSupport
 	{
 		this.roomAndCheckIn = roomAndCheckIn;
 	}
-	public String requestQueryRoom()
+	public String todayRoomEntered()
 	{
 		//客户端 规定 如果不想用某个过滤器，如果该字段为int 指定为-1 如果为 String 指定为 ""
 		if(type == -1)
@@ -335,10 +277,10 @@ public class RequestAction extends ActionSupport
 		roomAndCheckIn = manager.getRoomByFilter(type,enterDate,outDate);
 		roomPriceList  = manager.getAllRoomPrice();
 		
-		return "requestQueryRoomSuccess";
+		return "todayRoomEntered";
 	}
 	
-	/*-----------------------------------requestQueryEmptyRoomAction（今日空房）-----------------------------------------*/
+	/*-----------------------------------todayRoomEmpty（今日空房）-----------------------------------------*/
 	List<Room> roomList;
 	public List<Room> getRoomList()
 	{
@@ -357,7 +299,7 @@ public class RequestAction extends ActionSupport
 	{
 		this.state = state;
 	}
-	public String requestQueryEmptyRoom()
+	public String todayRoomEmpty()
 	{
 		
 		///客户端 如果 state type 指定 为 -1 代表 忽略过滤器
@@ -365,7 +307,7 @@ public class RequestAction extends ActionSupport
 			type =StaticData.ROOM_TYPE_IGNORE;
 		
 		roomList = manager.getEmptyRoom(type,state);
-		return "requestQueryEmptyRoomSuccess";
+		return "todayRoomEmpty";
 	}
 	
 	
@@ -473,103 +415,6 @@ public class RequestAction extends ActionSupport
 	}
 	
 	
-	
-	
-	
-	
-	
-	/*-----------------------------------requestAddRoomTypeAction-----------------------------------------*/
-	String description;
-	int hourPrice;
-	int price;
-	int num;
-	
-	public int getNum()
-	{
-		return num;
-	}
-	public void setNum(int num)
-	{
-		this.num = num;
-	}
-	public String getDescription()
-	{
-		return description;
-	}
-	public void setDescription(String description)
-	{
-		this.description = description;
-	}
-	public int getHourPrice()
-	{
-		return hourPrice;
-	}
-	public void setHourPrice(int hourPrice)
-	{
-		this.hourPrice = hourPrice;
-	}
-	public int getPrice()
-	{
-		return price;
-	}
-	public void setPrice(int price)
-	{
-		this.price = price;
-	}
-	public String requestAddRoomType()
-	{
-		
-		requestResult = manager.addRoomType(new RoomPrice(0,description,price,0,hourPrice));
-		return "requestAddRoomTypeSuccess";
-	}
-	
-	/*-----------------------------------requestUpdateRoomTypeAction-----------------------------------------*/
-	
-	public String requestUpdateRoomType()
-	{
-		
-		requestResult = manager.updateRoomType(new RoomPrice(type,description,price,num,hourPrice));
-		
-		return "requestUpdateRoomTypeSuccess";
-	}
-	
-	/*-----------------------------------requestDelRoomTypeAction-----------------------------------------*/
-	
-	public String requestDelRoomType()
-	{
-		requestResult = manager.delRoomType(type);
-		return "requestDelRoomTypeSuccess";
-	}
-
-	
-	
-	
-	
-	/*-----------------------------------delOrderAction  删除单个订单-----------------------------------------*/
-	
-	int orderId;
-	public int getOrderId()
-	{
-		return orderId;
-	}
-	public void setOrderId(int orderId)
-	{
-		this.orderId = orderId;
-	}
-	public String delOrder()
-	{
-		requestResult = manager.delOrder(orderId);
-		return "delOrderSuccess";
-	}
-	
-	
-	/*----------------------------------------requestQueryOrderAction 跳转到订单页面-----------------------------------------*/
-	
-	public String requestQueryOrder()
-	{
-		
-		return "requestQueryOrderSuccess";
-	}
 	
 	/*-----------------------------------requestLoginOffAction-----------------------------------------*/
 	

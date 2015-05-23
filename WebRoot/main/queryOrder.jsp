@@ -19,7 +19,7 @@
   <body>
   		initial.....
   
-   		 <s:form id="queryOrderForm" cssStyle="display:none" action="requestQueryOrderAction" executeScripts="true" namespace="/main"  >
+   		 <s:form id="queryOrderForm" cssStyle="display:none" action="redirectOrderAction" executeScripts="true" namespace="/main"  >
 			<s:submit id = "queryOrder_submit"  executeScripts="true"  formId="queryOrderForm"></s:submit>
 		</s:form>
   </body>

@@ -46,9 +46,9 @@ function requestOrder(oid){
 
 	//请求订单
 	$.ajax({ 
-		   url : "requestOrderAction", 
+		   url : "infoOrderAction", 
 		   data:	{
-			   "orderId":oid
+			   "od.id":oid
 			   },
 		   dataType:"json",
 		   type : "GET", 

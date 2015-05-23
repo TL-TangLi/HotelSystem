@@ -21,90 +21,92 @@
 
 		<!-- /////////////////////////////////////////////////////////////////////////////////////////////// -->
 		
-		<!-- 入住操作 -->
-		<action name="checkInAction" class="com.hotel.mainaction.CheckInAction">
-			<result name="info" type="dispatcher">
+		<action name="*RoomTypeAction" class="com.hotel.mainaction.RoomTypeAction" method="{1}">
+			<result name="query" type="json"></result>
+			<result name="add" type="dispatcher">
+				/WEB-INF/requestResult.jsp
+			</result>
+			<result name="del" type="dispatcher">
+				/WEB-INF/requestResult.jsp
+			</result>
+			<result name="update" type="dispatcher">
 				/WEB-INF/requestResult.jsp
 			</result>
 		</action>
 		
-		<!-- 入住信息修改 -->
-		<action name="updateCheckInInfoAction" class="com.hotel.mainaction.UpdateCheckInInfoAction">
-			<result name="info" type="dispatcher">
+		<action name="infoRoomAction" class="com.hotel.mainaction.RequestRoomAction" >
+			<result name="info" type="json"></result>
+		</action>
+		
+		<action name="*RoomAction" class="com.hotel.mainaction.RoomAction"
+			method="{1}">
+			<result name="info" type="json"></result>
+			<result name="add" type="dispatcher">
+				/WEB-INF/requestResult.jsp
+			</result>
+			<result name="changeRoomType" type="dispatcher">
+				/WEB-INF/requestResult.jsp
+			</result>
+			<result name="changeState" type="dispatcher">
+				/WEB-INF/requestResult.jsp
+			</result>
+			<result name="switchRoom" type="dispatcher">
 				/WEB-INF/requestResult.jsp
 			</result>
 		</action>
 		
-		<!-- 入住信息查询、删除请求 -->
-		<action name="checkInInfoManagerAction" class="com.hotel.mainaction.CheckInInfoManagerAction">
-			<result name="queryCheckInInfoSuccess" type="dispatcher">
+	
+		
+		<action name="*CheckInAction" class="com.hotel.mainaction.CheckInAction" method="{1}">
+			<result name="info" type="dispatcher">
+				/WEB-INF/requestResult.jsp
+			</result>
+			<result name="update" type="dispatcher">
+				/WEB-INF/requestResult.jsp
+			</result>
+			<result name="query" type="dispatcher">
 				/WEB-INF/queryCheckIn.jsp
 			</result>
-			<result name="delCheckInInfoSuccess" type="redirectAction">
+			<result name="del" type="redirectAction">
 				<param name="namespace">/main</param>
-				<param name="actionName">checkInInfoManagerAction</param>
+				<param name="actionName">queryCheckInAction</param>
 				<param name="enterDateBegin">${enterDateBegin}</param>
 				<param name="enterDateEnd">${enterDateEnd}</param>
 				<param name="outDateBegin">${outDateBegin}</param>
 				<param name="outDateEnd">${outDateEnd}</param>
 			</result>
-		</action>
-		
-		<!-- 房间信息请求 -->
-		<action name="requestRoomAction" class="com.hotel.mainaction.RequestRoomAction">
-			<result name="requestRoomSuccess" type="json"></result>
-		</action>
-		
-		<!-- 房间类型列表请求 -->
-		<action name="requestRoomTypeListAction" class="com.hotel.mainaction.RequestRoomTypeListAction">
-			<result name="requestRoomTypeListSuccess" type="json"></result>
-		</action>
-		
-		<!-- 房间添加，状态修改，房间类型修改 -->
-		<action name="*ActionForRoom" class="com.hotel.mainaction.RoomManagerAction"
-			method="{1}">
-			<result name="addRoomResult" type="dispatcher">
-				/WEB-INF/requestResult.jsp
-			</result>
-			<result name="requestChangeRoomStateSuccess" type="dispatcher">
-				/WEB-INF/requestResult.jsp
-			</result>
-			<result name="changeRoomTypeResult" type="dispatcher">
+			<result name="requestContinue" type="dispatcher">
 				/WEB-INF/requestResult.jsp
 			</result>
 		</action>
 		
-		<!-- 订单信息请求 -->
-		<action name="requestOrderAction" class="com.hotel.mainaction.RequestOrderAction">
-			<result name="success" type="json"></result>
-		</action>
-		
-		<!-- 添加订单，更新订单 -->
-		<action name="addOrderAction" class="com.hotel.mainaction.AddOrderAction">
-			<result name="info" type="dispatcher">
+		<action name="*OrderAction" class="com.hotel.mainaction.OrderAction" method="{1}">
+			<result name="info" type="json"></result>
+			<result name="add" type="dispatcher">
 				/WEB-INF/requestResult.jsp
 			</result>
-			<result name="updateOrderSuccess" type="json"></result>
-		</action>
-		
-		<!-- 订单查询，删除 -->
-		<action name="orderQueryAction" class="com.hotel.mainaction.OrderQueryAction">
-			<result name="success" type="dispatcher">
+			<result name="query" type="dispatcher">
 				/WEB-INF/queryOrder.jsp
 			</result>
-			<result name="delOrderSuccess" type="redirectAction">
+			<result name="del" type="dispatcher">
+				/WEB-INF/requestResult.jsp
+			</result>
+			<result name="delMulti" type="redirectAction">
 				<param name="enterDate">${enterDate}</param>
 				<param name="orderTime">${orderTime}</param>
 				<param name="info">${info}</param>
 				<param name="namespace">/main</param>
-				<param name="actionName">orderQueryAction</param>
+				<param name="actionName">queryOrderAction</param>
+			</result>
+			<result name="redirect" type="redirectAction">
+				<param name="namespace">/main</param>
+				<param name="actionName">queryOrderAction</param>
 			</result>
 		</action>
 		
 		
 		<!-- /////////////////////////////////////////////////////////////////////////////////////////////// -->
 		
-		<!-- 【入住房间删除账单、已退房间删除账单、统计中删除账单、入住账单列表、已退账单列表、统计账单列表、消费、入账、房费重置】请求 -->
 		<action name="*ActionForBalance" class="com.hotel.mainaction.BalanceManagerAction"
 			method="{1}">
 			<result name="requestDelAccountInRoomActionSuccess" type="redirectAction">
@@ -181,21 +183,16 @@
 		
 		<!-- /////////////////////////////////////////////////////////////////////////////////////////////// -->
 
-		<!-- 【房态、换房、订单查询重定向、续住、入住订单列表、今日统计、房间统计、房间类型增删改、订单删除、空房间、loginoff】请求 -->
 		<action name="*Action" class="com.hotel.mainaction.RequestAction"
 			method="{1}">
-			<result name="requestAllRoomSuccess" type="dispatcher">
+			<result name="roomTrend" type="dispatcher">
 				/WEB-INF/home.jsp
 			</result>
-			<result name="requestSwitchRoomSuccess" type="dispatcher">
-				/WEB-INF/requestResult.jsp
+			<result name="todayRoomEntered" type="dispatcher">
+				/WEB-INF/requestQueryRoom.jsp
 			</result>
-			<result name="requestQueryOrderSuccess" type="redirectAction">
-				<param name="namespace">/main</param>
-				<param name="actionName">orderQueryAction</param>
-			</result>
-			<result name="requestContinueCheckInSuccess" type="dispatcher">
-				/WEB-INF/requestResult.jsp
+			<result name="todayRoomEmpty" type="dispatcher">
+				/WEB-INF/requestQueryEmptyRoomResult.jsp
 			</result>
 			<result name="requestOrderForCheckInResult.jsp" type="dispatcher">
 				/WEB-INF/requestOrderForCheckInResult.jsp
@@ -203,29 +200,11 @@
 			<result name="requestOrderResult.jsp" type="dispatcher">
 				/WEB-INF/requestOrderResult.jsp
 			</result>
-			<result name="requestQueryRoomSuccess" type="dispatcher">
-				/WEB-INF/requestQueryRoom.jsp
-			</result>
 			<result name="requestTodayRoomStatisticsSuccess" type="dispatcher">
 				/WEB-INF/requestTodayRoomStatistics.jsp
 			</result>
 			<result name="requestRoomStatisticsSuccess" type="dispatcher">
 				/WEB-INF/queryRoomStatistics.jsp
-			</result>
-			<result name="requestAddRoomTypeSuccess" type="dispatcher">
-				/WEB-INF/requestResult.jsp
-			</result>
-			<result name="requestDelRoomTypeSuccess" type="dispatcher">
-				/WEB-INF/requestResult.jsp
-			</result>
-			<result name="requestUpdateRoomTypeSuccess" type="dispatcher">
-				/WEB-INF/requestResult.jsp
-			</result>
-			<result name="delOrderSuccess" type="dispatcher">
-				/WEB-INF/requestResult.jsp
-			</result>
-			<result name="requestQueryEmptyRoomSuccess" type="dispatcher">
-				/WEB-INF/requestQueryEmptyRoomResult.jsp
 			</result>
 			<result name="requestLoginOffSuccess" type="dispatcher">
 				<param name="location">/WEB-INF/home.jsp</param>
@@ -246,9 +225,6 @@
 			</result>
 		</action>
 	</package>
-
-
-
 
 
 </struts>    

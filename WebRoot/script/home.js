@@ -83,7 +83,7 @@ function accessRoom(rid,openDialog){
 		return;
 	
 	$.ajax({ 
-		   url : "requestRoomAction", 
+		   url : "infoRoomAction", 
 		   data : { 
 		       "roomId":rid
 		   }, 

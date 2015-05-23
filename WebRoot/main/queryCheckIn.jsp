@@ -25,7 +25,7 @@
   <body>
   		initial.....
   
-   		 <s:form id="requestqueryCheckInForm" cssStyle="display:none" action="checkInInfoManagerAction" executeScripts="true" namespace="/main"  >
+   		 <s:form id="requestqueryCheckInForm" cssStyle="display:none" action="queryCheckInAction" executeScripts="true" namespace="/main"  >
 			<s:textfield name="enterDateBegin" id="enterDateBegin"></s:textfield>
 			<s:textfield name="enterDateEnd"    id="enterDateEnd"></s:textfield>
 			<s:textfield name="outDateBegin"></s:textfield>

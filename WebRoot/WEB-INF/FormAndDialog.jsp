@@ -21,7 +21,7 @@
 		<div id="checkInDialog" style="display:none" >
 			<center>
 			<p>可以入住</p>
-				<s:form name="checkInForm"  theme="simple" action="checkInAction" namespace="/main" onsubmit="javascript:return checkInAvalidate()">
+				<s:form name="checkInForm"  theme="simple" action="infoCheckInAction" namespace="/main" onsubmit="javascript:return checkInAvalidate()">
 					<table class= "ui-widget-content">
 						<tr>
 							<td><s:textfield  id ="checkIn_cif_rId" name="cif.rId" cssStyle="display:none" /></td>
@@ -112,7 +112,7 @@
 		<div  id="updateCheckInInfoDialog" style="display:none">
 			<center>
 				<p>入住信息修改</p>
-				<s:form  theme="simple"  action="updateCheckInInfoAction" namespace="/main" onSubmit="return updateCheckInInfoAvalidate()">
+				<s:form  theme="simple"  action="updateCheckInAction" namespace="/main" onSubmit="return updateCheckInInfoAvalidate()">
 					<table class= "ui-widget-content" >
 						<tr>
 							<td >状态:</td>
@@ -196,7 +196,7 @@
 		
 		<!-- ///////换房Form//////// -->
 		<div id= "switchRoomDialog" style="display: none">
-		<s:form id="switchRoomForm" theme="simple" action="requestSwitchRoomAction" namespace="/main" onsubmit="javascript:return switchRoomAvalidate()">
+		<s:form id="switchRoomForm" theme="simple" action="switchRoomRoomAction" namespace="/main" onsubmit="javascript:return switchRoomAvalidate()">
 			<s:textfield name="targetId" cssStyle="display:none" id="switchRoom_targetId"></s:textfield>
 			<s:textfield name="roomId"   cssStyle="display:none" id="switchRoom_roomId"></s:textfield>
 			<p class="warn" id="switchRoom_description_id"></p>
@@ -306,7 +306,7 @@
 		<!-- ////////改变房间状态changeRoomDialog//////// -->
 		<div id="changeRoomDialog" style="display:none">
 			<center>
-				<s:form id="changerRoomStateForm" theme="simple" action="requestChangeRoomStateActionForRoom" namespace="/main" onsubmit="return changeRoomStateAvaliable()"  >
+				<s:form id="changerRoomStateForm" theme="simple" action="changeStateRoomAction" namespace="/main" onsubmit="return changeRoomStateAvaliable()"  >
 					<table class= "ui-widget-content" align="center">
 						<tr>
 							<td>状态：</td>
@@ -323,7 +323,7 @@
 					</table>
 				</s:form>
 				
-				<s:form id='changeRoomTypeForm' theme='simple' action='changeRoomTypeActionForRoom' namespace='/main' onsubmit='return changeRoomTypeAvaliable()'>
+				<s:form id='changeRoomTypeForm' theme='simple' action='changeRoomTypeRoomAction' namespace='/main' onsubmit='return changeRoomTypeAvaliable()'>
 					<table class= 'ui-widget-content' align='center'>
 						<tr>
 							<td>类型：</td>
@@ -368,35 +368,35 @@
 						</tr>
 						<tr>
 							<td>入住日期:</td>
-							<td><s:textfield name="enterDate" id="addOrder_od_enterDate" readonly="true"></s:textfield></td>
+							<td><s:textfield name="od.enterDate" id="addOrder_od_enterDate" readonly="true"></s:textfield></td>
 							<td><p id="addOrder_warn_enterDate" class="warn">*必填</p> </td>
 						</tr>
 						<tr>
 							<td>预定天数:</td>
-							<td><s:textfield name="days" id="addOrder_od_days" value="1" maxlength="1"></s:textfield></td>
+							<td><s:textfield name="od.days" id="addOrder_od_days" value="1" maxlength="1"></s:textfield></td>
 							<td><p id="addOrder_warn_days" class="warn">*必填</p> </td>
 						</tr>
 						<tr>
 							<td>房间数:</td>
-							<td><s:textfield name="rooms" id="addOrder_od_rooms" value="1" maxlength="1"></s:textfield></td>
+							<td><s:textfield name="od.rooms" id="addOrder_od_rooms" value="1" maxlength="1"></s:textfield></td>
 							<td><p id="addOrder_warn_rooms" class="warn">*必填</p> </td>
 						</tr>
 						<tr>
 							<td>姓名:</td>
-							<td><s:textfield name="name" id="addOrder_od_name" maxlength="10"></s:textfield></td>
+							<td><s:textfield name="od.name" id="addOrder_od_name" maxlength="10"></s:textfield></td>
 							<td><p id="addOrder_warn_name" class="warn">*必填</p> </td>
 						</tr>
 						<tr>
 							<td>电话号码:</td>
-							<td><s:textfield name="phoneNumber" id="addOrder_od_phoneNumber" maxlength="30"></s:textfield></td>
+							<td><s:textfield name="od.phoneNumber" id="addOrder_od_phoneNumber" maxlength="30"></s:textfield></td>
 						</tr>
 						<tr>
 							<td>说明:</td>
-							<td><s:textfield name="description" id="addOrder_od_description" maxlength="30"></s:textfield></td>
+							<td><s:textfield name="od.description" id="addOrder_od_description" maxlength="30"></s:textfield></td>
 						</tr>
 						<tr>
 							<td>订单延迟:</td>
-							<td><s:textfield name="extendHour" id="addOrder_od_extendHour" value="0" maxlength="1"></s:textfield></td>
+							<td><s:textfield name="od.extendHour" id="addOrder_od_extendHour" value="0" maxlength="1"></s:textfield></td>
 						</tr>			
 						<tr  ><td/><td align="center"><sx:submit notifyTopics="/addOrderResult"  onclick="beforeAddOrder()" value="确认"/></td></tr>
 					</table>
@@ -412,7 +412,7 @@
 			  <s:form theme="simple"  id="updateOrderForm" namespace="/main" action="addOrderAction" onsubmit="return updateOrderAvalidate()" >
 				 <table  class="ui-widget ui-widget-content" >
 			  		<tr  style="display:none">
-				  		<td><s:textfield   name ="id" id="updateOrder_id" ></s:textfield></td>
+				  		<td><s:textfield   name ="od.id" id="updateOrder_id" ></s:textfield></td>
 				  		<td><s:textfield   name ="addOrUpdate" value="-1"></s:textfield></td>
 			  		</tr>
 			  		<tr>
@@ -444,7 +444,7 @@
 			  			<td >
 			  				<s:select 
 			  					id = "updateOrder_info"
-						       name="info"
+						       name="od.info"
 						       list="#{'0':'未入住状态', '2':'放弃入住状态 ..........'}"
 						       required="true"
 							/>
@@ -483,7 +483,7 @@
 
 		 <!-- ///删除订单delOrderForm -->
 	  <s:form id="delOrderForm"  style="display:none"   namespace="/main" action="delOrderAction" onsubmit="return delOrderAvalidate()">
-	  		<s:textfield style="display:none" id="delOrder_id" name ="orderId" ></s:textfield>
+	  		<s:textfield style="display:none" id="delOrder_id" name ="od.id" ></s:textfield>
 	  </s:form>	
 
 
@@ -497,7 +497,7 @@
 		<!-- ////////添加房间addRoomDialog//////// -->
 		<div id="addRoomDialog" style="display:none">
 			<center>
-				<s:form id="addRoomForm" theme="simple" action="addRoomActionForRoom" namespace="/main" onsubmit="return addRoomAvalidate()">
+				<s:form id="addRoomForm" theme="simple" action="addRoomAction" namespace="/main" onsubmit="return addRoomAvalidate()">
 					<table class= "ui-widget-content" align="center">
 						<tr>
 							<td>房间号:</td>
@@ -521,7 +521,7 @@
 	
 	
 		<!-- ////////请求房间类型列表requestRoomTypeListForm//////// -->
-		<s:form id="requestRoomTypeListForm"  action="requestRoomTypeListAction" namespace="/main" cssStyle="display:none" >
+		<s:form id="requestRoomTypeListForm"  action="queryRoomTypeAction" namespace="/main" cssStyle="display:none" >
 			<sx:submit id="requestRoomTypeList_submit" notifyTopics="/requestRoomTypeListResult"></sx:submit>
 		</s:form>
 	
@@ -535,7 +535,7 @@
 		<!-- ////////添加房间类型addRoomTypeDialog//////// -->
 		<div id="addRoomTypeDialog" style="display:none">
 			<center>
-				<s:form theme="simple" action="requestAddRoomTypeAction" namespace="/main" onsubmit="return addRoomTypeAvalidate()">
+				<s:form theme="simple" action="addRoomTypeAction" namespace="/main" onsubmit="return addRoomTypeAvalidate()">
 					<table class= "ui-widget-content" align="center">
 						<tr>
 							<td>类型名</td>
@@ -563,7 +563,7 @@
 		<!-- ////////修改房间信息对话框updateRoomTypeDialog//////// -->
 		<div id="updateRoomTypeDialog" style="display:none">
 			<center>
-				<s:form theme="simple" action="requestUpdateRoomTypeAction" namespace="/main" onsubmit="return updateRoomTypeAvalidate()">
+				<s:form theme="simple" action="updateRoomTypeAction" namespace="/main" onsubmit="return updateRoomTypeAvalidate()">
 					<table class= "ui-widget-content" align="center">
 						
 						<tr>
@@ -597,7 +597,7 @@
 		<!-- ////////删除房间类型对话框delRoomTypeDialog//////// -->
 		<div id="delRoomTypeDialog" style="display:none">
 			<center>
-				<s:form theme="simple" action="requestDelRoomTypeAction" namespace="/main" onsubmit="return delRoomTypeAvalidate()" >
+				<s:form theme="simple" action="delRoomTypeAction" namespace="/main" onsubmit="return delRoomTypeAvalidate()" >
 					<table class= "ui-widget-content" align="center">
 						<tr>
 							<td>房型:</td>
@@ -644,7 +644,7 @@
 		
 	
 		<!-- //////请求查询空房间Form//////// -->
-		<s:form id="requestQueryEmptyRoomForm" cssStyle="display:none" theme="simple" action="requestQueryEmptyRoomAction" namespace="/main" >
+		<s:form id="requestQueryEmptyRoomForm" cssStyle="display:none" theme="simple" action="todayRoomEmptyAction" namespace="/main" >
 			<s:textfield name="type"  		id="queryEmptyRoom_type" ></s:textfield>
 			<s:textfield name="state"  	   id="queryEmptyRoom_state" ></s:textfield>
 			<sx:submit id="requestQueryEmptyRoom_submit" formId="requestQueryEmptyRoomForm"  executeScripts="true"   notifyTopics="/requestQueryEmptyRoomResult"></sx:submit>
@@ -658,7 +658,7 @@
 		
 	
 		<!-- //////请求查询入住房间Form//////// -->
-		<s:form id="requestQueryRoomForm" cssStyle="display:none" theme="simple" action="requestQueryRoomAction" namespace="/main" onSubmit="return requestQueryRoomAvalidate()" >
+		<s:form id="requestQueryRoomForm" cssStyle="display:none" theme="simple" action="todayRoomEnteredAction" namespace="/main" onSubmit="return requestQueryRoomAvalidate()" >
 			<s:textfield name="type"  		id="queryRoom_type" ></s:textfield>
 			<s:textfield name="enterDate"  	id="queryRoom_enterDate" ></s:textfield>
 			<s:textfield name="outDate"  	id="queryRoom_outDate" ></s:textfield>
@@ -680,7 +680,7 @@
 		
 	
 		<!-- //////////请求订单Form//////// -->
-		<s:form id="accessOrderByTypeForm" cssStyle="display:none" theme="simple" action="requestTodayOrderAction" namespace="/main" onSubmit="return accessOrderAvalidate()" >
+		<s:form id="accessOrderByTypeForm" cssStyle="display:none" theme="simple" action="todayOrderSumAction" namespace="/main" onSubmit="return accessOrderAvalidate()" >
 			<s:textfield name="orientaionName" id="accessOrder_orientaionName" ></s:textfield>
 			<s:textfield name="type"  		id="accessOrder_type" ></s:textfield>
 			<s:textfield name="info"  		id="accessOrder_info" ></s:textfield>

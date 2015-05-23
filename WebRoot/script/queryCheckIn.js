@@ -127,7 +127,7 @@ function chkbox_del(){
 	 if(answer){
 		 //页面跳转。
 		 if(window.prompt("请输入验证  ","") == "sa_sa") 
-			 window.location.href='checkInInfoManagerAction!requestDelCheckIn.action?'+str_cid;
+			 window.location.href='CheckInAction!del.action?'+str_cid;
 			else
 				alert("验证失败");
 	 }

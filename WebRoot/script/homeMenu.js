@@ -90,7 +90,7 @@ function closeAllDialog() {
 // 打开订单查询
 function queryOrderClick() {
 	var form = document.createElement("form");
-	form.action = "requestQueryOrderAction";
+	form.action = "queryOrderAction";
 	form.namespace = "/main";
 	form.target = "_blank";
 	form.executeScript = true;

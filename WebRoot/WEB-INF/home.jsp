@@ -88,7 +88,7 @@ if(user==null)
 			<a class="todayInfo" onclick="beforeRequestEmptyRoom(1)">所有可用空房<%out.print(todayEmptyRoomCount); %></a>&ensp; &ensp;&ensp;&ensp;
 			<!-- <a class="todayInfo" href="">已退房xx</a>&ensp; &ensp;&ensp;&ensp; -->
 			<a class="todayInfo" onclick="beforRequestTodayRoomStatistics()">剩余房统计<%out.print(todayLeft); %></a>&ensp; &ensp;&ensp;&ensp;&ensp; &ensp;&ensp;&ensp;
-			刷新：	<a id="freshButton" href="requestAllRoomAction"></a>
+			刷新：	<a id="freshButton" href="roomTrendAction"></a>
 			关闭：<button id="dialogClose" onclick="closeAllDialog()"></button>
 			退出：<button id="poweroff" onclick="managerExit()"></button>
 			设置：<a id="setting" target="_blank" href="../main/setting/setting.jsp"></a>
@@ -128,7 +128,7 @@ if(user==null)
 		<!-- ////////提示对话框infoDialog 会刷新//////// -->
 		<div id="infoDialog" style="display:none">
 			<center>
-				<s:form theme="simple" id="freshForm" action="requestAllRoomAction" namespace="/main" >
+				<s:form theme="simple" id="freshForm" action="roomTrendAction" namespace="/main" >
 					<table class= "ui-widget-content" align="center">
 						<tr><td><s:label id="info"></s:label></td></tr>			
 						<tr><td><s:submit value="确认并刷新"/></td></tr>

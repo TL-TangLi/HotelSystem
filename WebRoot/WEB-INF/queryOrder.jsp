@@ -68,7 +68,7 @@
 	  	int j = 0;
 	   %>
 	  <div id="accordion-resizer" class="ui-widget-content">
-		  <form action="orderQueryAction" >
+		  <form action="queryOrderAction" >
 		  <div id="accordion">
 		  	<s:iterator var="listOrder" value="listListOrder" >
 		  	
@@ -136,7 +136,7 @@
 		<!-- ////////提示对话框infoDialog 会刷新//////// -->
 		<div id="infoDialog" style="display:none">
 			<center>
-				<s:form theme="simple" action="orderQueryAction" namespace="/main" >
+				<s:form theme="simple" action="queryOrderAction" namespace="/main" >
 					<table class= "ui-widget-content" align="center">
 						<tr><td><s:label id="info"></s:label></td></tr>			
 						<tr><td><s:submit value="确认并刷新"/></td></tr>

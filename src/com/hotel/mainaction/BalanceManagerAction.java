@@ -3,7 +3,6 @@ package com.hotel.mainaction;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.hotel.datamanage.Manager;
 import com.hotel.entity.Account;
 import com.hotel.entity.AccountAndCheckIn;
 import com.hotel.entity.ChargeAndCheckIn;
@@ -12,13 +11,11 @@ import com.hotel.entity.Room;
 import com.hotel.entity.RoomCharge;
 import com.hotel.entity.RoomState;
 import com.hotel.staticdata.StaticData;
-import com.opensymphony.xwork2.ActionSupport;
 
-public class BalanceManagerAction extends ActionSupport
+public class BalanceManagerAction extends BaseAction
 {
 	private static final long serialVersionUID = -5185177812556999600L;
 	
-	Manager  manager = Manager.getManager();
 	int roomId;
 	List<RoomCharge> listRoomCharge;			//房费列表
 	List<List<Account>> listListAccount;		//账单列表
@@ -345,7 +342,6 @@ public class BalanceManagerAction extends ActionSupport
 	/*----------------------------------------requestAddBalanceAction-----------------------------------------*/
 	
 	public double addBalance;
-	public String requestResult;
 	public boolean willCheckOut;
 	
 	
@@ -356,14 +352,6 @@ public class BalanceManagerAction extends ActionSupport
 	public void setWillCheckOut(boolean willCheckOut)
 	{
 		this.willCheckOut = willCheckOut;
-	}
-	public String getRequestResult()
-	{
-		return requestResult;
-	}
-	public void setRequestResult(String requestResult)
-	{
-		this.requestResult = requestResult;
 	}
 	public double getAddBalance()
 	{
