@@ -14,7 +14,6 @@ public class AddOrderAction extends ActionSupport implements ModelDriven<Order>
 	@Override
 	public Order getModel()
 	{
-		// TODO Auto-generated method stub
 		return od;
 	}
 	public Order getOd()

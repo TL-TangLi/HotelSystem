@@ -2018,6 +2018,7 @@ public class DataAccessFromSqlite extends DataAccess
 			pst.setInt(1,cif.id);
 			pst.setInt(2,tagetId);
 			pst.execute();
+			pst.close();
 			
 			
 			///入住信息关联新 房间
@@ -2025,6 +2026,7 @@ public class DataAccessFromSqlite extends DataAccess
 			pst.setInt(1,tagetId);
 			pst.setInt(2,cif.id);
 			pst.execute();
+			pst.close();
 			
 			///原房间 设置为 脏房
 			pst = con.prepareStatement("update room set isClean = ? ,cId = 0 where id = ?");
@@ -2033,6 +2035,7 @@ public class DataAccessFromSqlite extends DataAccess
 			pst.execute();
 			
 			con.commit();
+			
 			return true;
 		}
 		catch(Exception e)
@@ -2093,11 +2096,11 @@ public class DataAccessFromSqlite extends DataAccess
 			
 			
 			///房间关联checkIn
+			pst.close();
 			pst = con.prepareStatement("update room set cId = ? where id =?");
 			pst.setInt(1,cId);
 			pst.setInt(2,ci.rId);
 			pst.execute();
-			
 			
 			//更新 订单
 			if(ci.orderId > 0)
@@ -2178,6 +2181,7 @@ public class DataAccessFromSqlite extends DataAccess
 			pst.setDouble(1,balance);
 			pst.setInt(2,cid);
 			pst.execute();
+			pst.close();
 			
 			///更新 房间为脏房
 			pst = con.prepareStatement("update room set isClean = ? ,isAvaliable = ? ,cId = 0 where id = ?");
@@ -2234,6 +2238,7 @@ public class DataAccessFromSqlite extends DataAccess
 			pst.setInt(1,Order.ORDER_TYPE_CHECKED);
 			pst.setInt(2,cif.orderId);
 			pst.execute();
+			pst.close();
 			
 			///将以前的订单设置为 可用
 			if(modifyOrederId != 0)
@@ -2242,6 +2247,7 @@ public class DataAccessFromSqlite extends DataAccess
 				pst.setInt(1,Order.ORDER_TYPE_AVALIDATE);
 				pst.setInt(2,modifyOrederId);
 				pst.execute();
+				pst.close();
 			}
 			
 			

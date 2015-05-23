@@ -158,6 +158,13 @@ function openAddBalance(isSettleAccount){
 		$("#addBalance_description_id").val("结账");
 		$("#addbalance_balance_id").val(-checkInRoomObj[0].leftMoney);
 		$( "#addBalanceDialog").dialog( "option", "title", "结账");
+		
+		//不可修改
+		$("#addbalance_balance_id").attr('readonly','readonly');
+		$("#addBalance_description_id").attr('readonly','readonly');
+		$("#addBalance_description_id").css('background','rgb(224,223,224)');
+		$("#addbalance_balance_id").css('background','rgb(224,223,224)');
+		
 	}
 	else{
 		
@@ -165,6 +172,13 @@ function openAddBalance(isSettleAccount){
 		$("#addBalance_description_id").val("正常入账");
 		$("#addbalance_balance_id").val("0.0");
 		$( "#addBalanceDialog").dialog( "option", "title", "入账");
+		
+		//可修改
+		$("#addbalance_balance_id").removeAttr('readonly');
+		$("#addBalance_description_id").removeAttr('readonly');
+		$("#addBalance_description_id").css('background','rgb(255,255,255)');
+		$("#addbalance_balance_id").css('background','rgb(255,255,255)');
+		
 	}
 	
 }

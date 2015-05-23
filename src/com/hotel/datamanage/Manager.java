@@ -249,11 +249,11 @@ public class Manager
  	 * @param targetId
  	 * @return
  	 */
- 	public synchronized String switchRoom(int rId,int targetId)
+ 	public  String switchRoom(int rId,int targetId)
 	{
 		try
 		{
-			if(da.transactionForSwitchRoom(rId,targetId)== false)												//如果现在 房间对应  入住信息号 无效，那么提醒刷新
+			if(da.transactionForSwitchRoom(rId,targetId)== false)			//如果现在 房间对应  入住信息号 无效，那么提醒刷新
 				return "换房失败，房间用户有所变更，刷新后操作！";		
 			return "换房成功！";
 		}
@@ -365,11 +365,12 @@ public class Manager
  	}
  	
  	
+ 	
  	public String addRoom(Room room)
  	{
  		try
 		{
- 			if(da.getRoomById(room.id)!= null)
+ 			if(da.getRoomById(room.id).getId() != StaticData.NOT_VALIDATE)
  				return "房间号已经存在，请重新指定！";
  			
  			da.addRoom(room);						//触发器 自动 增加一次统计
@@ -415,17 +416,6 @@ public class Manager
 		}
  	}
  	
- 	public void delAccountItem(int id)
- 	{
- 		try
-		{
-			da.delAccount(id);
-		}
-		catch (MyException e)
-		{
-			e.printStackTrace();
-		}
- 	}
  	
  	
  	public String delCheckIn(int id)
@@ -453,6 +443,22 @@ public class Manager
 			e.printStackTrace();
 		}
  	}
+ 	
+ 
+ 	
+ 	public void delAccountItem(int id)
+ 	{
+ 		try
+		{
+			da.delAccount(id);
+		}
+		catch (MyException e)
+		{
+			e.printStackTrace();
+		}
+ 	}
+ 	
+ 	
  	
  	public  void addChargeItem(RoomCharge charge)
  	{
