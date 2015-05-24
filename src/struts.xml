@@ -6,7 +6,19 @@
 	<!-- <constant name="struts.validateOnly" value="true"/> -->
 
 	<package name="mainPackage" namespace="/main" extends="json-default">
-
+		
+		<interceptors>
+			<interceptor name="access" class="com.hotel.util.AccessInterceptor"></interceptor>
+			<interceptor-stack name="myStack">
+			<!-- 必须加入框架提供的默认拦截器否者导致参数丢失 -->
+			 <interceptor-ref name="defaultStack"></interceptor-ref>	
+				<interceptor-ref name="access"></interceptor-ref>
+			</interceptor-stack>
+		</interceptors>
+		
+		<!-- 自定义默认拦截器 -->
+		<default-interceptor-ref name="myStack"></default-interceptor-ref>
+		
 		<!-- /////////////////////////////////////////////////////////////////////////////////////////////// -->
 	
 		<action name="loginAction" class="com.hotel.mainaction.LoginAction">
@@ -17,7 +29,7 @@
 			<result name="input" type="dispatcher">/main/login.jsp</result>
 		</action>
 
-
+		
 
 		<!-- /////////////////////////////////////////////////////////////////////////////////////////////// -->
 		
@@ -188,18 +200,22 @@
 			<result name="roomTrend" type="dispatcher">
 				/WEB-INF/home.jsp
 			</result>
+			<!-- 【今日在住、今日入住、今日应退房】统计 -->
 			<result name="todayRoomEntered" type="dispatcher">
 				/WEB-INF/requestQueryRoom.jsp
 			</result>
 			<result name="todayRoomEmpty" type="dispatcher">
 				/WEB-INF/requestQueryEmptyRoomResult.jsp
 			</result>
+			<!-- 【入住关联订单 请求订单列表】 -->
 			<result name="requestOrderForCheckInResult.jsp" type="dispatcher">
 				/WEB-INF/requestOrderForCheckInResult.jsp
 			</result>
+			<!-- 【今日订单待住、新增】统计 -->
 			<result name="requestOrderResult.jsp" type="dispatcher">
 				/WEB-INF/requestOrderResult.jsp
 			</result>
+			<!-- 【房间剩余统计】统计 -->
 			<result name="requestTodayRoomStatisticsSuccess" type="dispatcher">
 				/WEB-INF/requestTodayRoomStatistics.jsp
 			</result>

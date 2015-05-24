@@ -87,14 +87,17 @@ function accessRoom(rid,openDialog){
 		   data : { 
 		       "roomId":rid
 		   }, 
-		   dataType :"json", 
 		   type : "GET", 
 		   success : function(data){ 
 			   
-			   	obj = eval(data.jsonData);
-				
+			   if(!data.rs){
+				   openMessageDialog(JSON.parse(data).message,'提示');
+				   return;
+			   }
+			   	obj = data.rs;
+			   	
 				//房间状态
-				switch(obj[3].id)
+				switch(obj.roomColor.id)
 				{
 				//干净房
 				case 1:
@@ -140,7 +143,7 @@ function accessRoom(rid,openDialog){
 
 function openCleanRoom(){
 	$("#checkInDialog").dialog({width:450,height:510});
-	$( "#checkInDialog").dialog( "option", "title", cleanRoomObj[1].id +"(" +cleanRoomObj[2].description+")--"+cleanRoomObj[2].price+"/天--"+cleanRoomObj[2].hourPrice+"/时");
+	$( "#checkInDialog").dialog( "option", "title", cleanRoomObj.room.id +"(" +cleanRoomObj.roomPrice.description+")--"+cleanRoomObj.roomPrice.price+"/天--"+cleanRoomObj.roomPrice.hourPrice+"/时");
 }
 //入住校验，以及填写roomid 到表单
 function checkInAvalidate(){
@@ -151,7 +154,7 @@ function checkInAvalidate(){
 	
 	
 	//填写申请入住表单的房间号
-	document.getElementById("checkIn_cif_rId").value = cleanRoomObj[1].id;
+	document.getElementById("checkIn_cif_rId").value = cleanRoomObj.room.id;
 	
 	var submitPermission = true;
 	
@@ -279,8 +282,8 @@ function changeRoomTypeAvaliable(){
 			return false;
 		}
 	}
-	$("#changeRoomType_rId").val(dirtyRoomObj[1].id);
-	$("#changeRoomType_oldType").val(dirtyRoomObj[1].type);
+	$("#changeRoomType_rId").val(dirtyRoomObj.room.id);
+	$("#changeRoomType_oldType").val(dirtyRoomObj.room.type);
 	
 	isOperating = true;
 	return true;
@@ -311,11 +314,11 @@ function changeRoomStateAvaliable(){
 		$("#changeRoomState_select").empty();
 		$("#changeRoomState_select").append("<option value=2></option>");
 		//填写修改房间状态表单中的房间号
-		document.getElementById("changeRoomState_rId").value = cleanRoomObj[1].id;
+		document.getElementById("changeRoomState_rId").value = cleanRoomObj.room.id;
 	}
 	else if(changeRoomStateComeFrom ==2){
 		//填写修改房间状态表单中的房间号
-		document.getElementById("changeRoomState_rId").value = dirtyRoomObj[1].id;
+		document.getElementById("changeRoomState_rId").value = dirtyRoomObj.room.id;
 		
 		//如果是删除房间 要询问
 		if($("#changeRoomState_select").val() == 0)
@@ -355,29 +358,29 @@ dojo.event.topic.subscribe("/requestChangeRoomStateResult",function myfunction(d
 
 function openUpdateCheckInInfoDialog(){
 	//记录修改前的订单号
-	$("#orderId2_beforModify").attr("value",checkInRoomObj[4].orderId);
+	$("#orderId2_beforModify").attr("value",checkInRoomObj.checkInInfo.orderId);
 	//状态
-	$("#state2").html(checkInRoomObj[3].description+" ("+checkInRoomObj[4].outTime+")到期");
+	$("#state2").html(checkInRoomObj.roomColor.description+" ("+checkInRoomObj.checkInInfo.outTime+")到期");
 	//订单
-	if(checkInRoomObj[4].orderId==0)
+	if(checkInRoomObj.checkInInfo.orderId==0)
 		$("#orderId2").attr("value","无");
 	else
-		$("#orderId2").attr("value",checkInRoomObj[4].orderId);
-	$("#name2").attr("value",checkInRoomObj[4].name);
-	$("#numberPeople2").attr("value",checkInRoomObj[4].numberPeople);
-	$("#phoneNumber2").attr("value",checkInRoomObj[4].phoneNumber);
-	$("#description2").attr("value",checkInRoomObj[4].description);
-	$("#enterTime2").html(checkInRoomObj[4].enterTime);
-	$("#balance2").html(checkInRoomObj[4].allAddBalance.toFixed(2));
-	$("#leftMoney2").html(checkInRoomObj[0].leftMoney.toFixed(2));
+		$("#orderId2").attr("value",checkInRoomObj.checkInInfo.orderId);
+	$("#name2").attr("value",checkInRoomObj.checkInInfo.name);
+	$("#numberPeople2").attr("value",checkInRoomObj.checkInInfo.numberPeople);
+	$("#phoneNumber2").attr("value",checkInRoomObj.checkInInfo.phoneNumber);
+	$("#description2").attr("value",checkInRoomObj.checkInInfo.description);
+	$("#enterTime2").html(checkInRoomObj.checkInInfo.enterTime);
+	$("#balance2").html(checkInRoomObj.checkInInfo.allAddBalance.toFixed(2));
+	$("#leftMoney2").html(checkInRoomObj.leftMoney.toFixed(2));
 	//房费显示
-	if(checkInRoomObj[0].countByHour==true)
-		$("#enterCount2").html("已入住"+checkInRoomObj[0].enterCount+"小时");
+	if(checkInRoomObj.countByHour==true)
+		$("#enterCount2").html("已入住"+checkInRoomObj.enterCount+"小时");
 	else
-		$("#enterCount2").html("产生"+checkInRoomObj[0].enterCount+"天房费");
+		$("#enterCount2").html("产生"+checkInRoomObj.enterCount+"天房费");
 	
 	//如果是小时房  便显示修改成正常入住的select，不显示 订单关联一栏,不显示续住按钮
-	if(checkInRoomObj[4].hourRoom == true){
+	if(checkInRoomObj.checkInInfo.hourRoom == true){
 		document.getElementById("updateCheckInInfo_isHourRoom_tr").style.display = "table-row";
 		document.getElementById("updateCheckInInfo_orderId_tr").style.display = "none";
 		document.getElementById("continueCheckInButton").disabled=true;
@@ -395,7 +398,7 @@ function openUpdateCheckInInfoDialog(){
 	}
 	//如果是 干净房 和 已入住房
 	$("#updateCheckInInfoDialog").dialog({width:450,height:470});
-	$( "#updateCheckInInfoDialog" ).dialog( "option", "title", checkInRoomObj[1].id +"(" +checkInRoomObj[2].description+")--"+checkInRoomObj[2].price+"/天--"+checkInRoomObj[2].hourPrice+"/时");
+	$( "#updateCheckInInfoDialog" ).dialog( "option", "title", checkInRoomObj.room.id +"(" +checkInRoomObj.roomPrice.description+")--"+checkInRoomObj.roomPrice.price+"/天--"+checkInRoomObj.roomPrice.hourPrice+"/时");
 
 }
 
@@ -454,7 +457,7 @@ function updateCheckInInfoAvalidate(){
 	
 	if(permission == true){
 		//记录当前房间号
-		document.getElementById("updateCheckInInfo_cif_rId").value = checkInRoomObj[1].id;
+		document.getElementById("updateCheckInInfo_cif_rId").value = checkInRoomObj.room.id;
 		isOperating = true;
 	}
 	
@@ -494,7 +497,7 @@ function balanceButtonClick(){
 	
 	//传递 房间 id 以及 入住信息号ss
 	dialogClose("updateCheckInInfoDialog");
-	window.open("balanceDetail.jsp?roomId="+checkInRoomObj[1].id);
+	window.open("balanceDetail.jsp?roomId="+checkInRoomObj.room.id);
 }
 
 
@@ -519,7 +522,7 @@ function continueCheckInAvalidate(){
 	$("#continueDays_warn").html("*");
 	
 	//获取当前房间号
-	$("#continueCheckIn_rId").val(checkInRoomObj[1].id);
+	$("#continueCheckIn_rId").val(checkInRoomObj.room.id);
 	
 	isOperating = true;
 	return true;
@@ -672,7 +675,7 @@ dojo.event.topic.subscribe("/requestRoomTypeListResult",function myfunction(data
 			$("#changeRoomState_select").empty();
 			
 			//脏房
-			if(obj[3].id == 2){
+			if(obj.roomColor.id == 2){
 				//添加相应select item
 				$("#changeRoomState_select")
 					.append("<option value=1>干净房</option>")
@@ -680,7 +683,7 @@ dojo.event.topic.subscribe("/requestRoomTypeListResult",function myfunction(data
 				if(userLevel <=0)
 					$("#changeRoomState_select").append("<option value=0>删除房间</option>");
 			}
-			//不可用房 obj[3].id == 6
+			//不可用房 obj.roomColor.id == 6
 			else{
 				$("#changeRoomState_select")
 					.append("<option value=2>脏房</option>")
@@ -694,7 +697,7 @@ dojo.event.topic.subscribe("/requestRoomTypeListResult",function myfunction(data
 			
 			$("#changeRoomType_list").attr("name","changeRoomType");
 			$("#changeRoomDialog").dialog({width:320,height:270});
-			$("#changeRoomDialog" ).dialog( "option", "title",obj[1].id +"(" +obj[2].description+")" + "修改房间");
+			$("#changeRoomDialog" ).dialog( "option", "title",obj.room.id +"(" +obj.roomPrice.description+")" + "修改房间");
 			
 			break;
 			

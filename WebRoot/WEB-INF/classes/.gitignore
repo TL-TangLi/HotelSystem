@@ -1,1 +1,8 @@
 /com/
+/applicationContext-constant.xml
+/applicationContext-dao.xml
+/applicationContext-error.xml
+/applicationContext-hibernate.xml
+/applicationContext-hql.xml
+/applicationContext-service.xml
+/dispatcher-config.xml

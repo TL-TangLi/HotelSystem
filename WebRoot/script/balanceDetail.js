@@ -107,24 +107,16 @@ function ignoreDate(n){
 
 function afterAccessCheckInRoom(){
 	
-//	checkInRoomObj
+	var str_description = "<p>&ensp;&ensp;&ensp;"+checkInRoomObj.checkInInfo.enterTime+"入住,"
+	+checkInRoomObj.checkInInfo.outTime+"过期";
 	
-	//obj[0](leftMoney,countByHour,enterCount)
-	//obj[1]Room
-	//obj[2]RoomPrice
-	//obj[3]RoomColor
-	//obj[4]CheckInInfo
-	
-	var str_description = "<p>&ensp;&ensp;&ensp;"+checkInRoomObj[4].enterTime+"入住,"
-	+checkInRoomObj[4].outTime+"过期";
-	
-	if(checkInRoomObj[4].hourRoom==true )
+	if(checkInRoomObj.checkInInfo.hourRoom==true )
 		str_description += "——(是小时房)——，";
 	else
 		str_description += "，";
 	
-	str_description += "联系人:"+checkInRoomObj[4].name+" , 联系电话："+checkInRoomObj[4].phoneNumber
-	+",入住人数："+checkInRoomObj[4].numberPeople+",入住说明:"+checkInRoomObj[4].description+".</p>";
+	str_description += "联系人:"+checkInRoomObj.checkInInfo.name+" , 联系电话："+checkInRoomObj.checkInInfo.phoneNumber
+	+",入住人数："+checkInRoomObj.checkInInfo.numberPeople+",入住说明:"+checkInRoomObj.checkInInfo.description+".</p>";
 	
 	
 	
@@ -132,13 +124,13 @@ function afterAccessCheckInRoom(){
 	
 	
 	str_description = "<p>&ensp;&ensp;&ensp;";
-	if(checkInRoomObj[0].countByHour)
-		str_description += "已入住"+checkInRoomObj[0].enterCount+"小时:"+checkInRoomObj[2].hourPrice;
+	if(checkInRoomObj.countByHour)
+		str_description += "已入住"+checkInRoomObj.enterCount+"小时:"+checkInRoomObj.roomPrice.hourPrice;
 	else
-		str_description += "产生"+checkInRoomObj[0].enterCount+"天房费:" +checkInRoomObj[0].enterCount+" × "+checkInRoomObj[2].price +" = " +checkInRoomObj[0].enterCount*checkInRoomObj[2].price;
+		str_description += "产生"+checkInRoomObj.enterCount+"天房费:" +checkInRoomObj.enterCount+" × "+checkInRoomObj.roomPrice.price +" = " +checkInRoomObj.enterCount*checkInRoomObj.roomPrice.price;
 	
 	
-	str_description += "元，当前余额为："+checkInRoomObj[0].leftMoney+"  元   (余额  = 总入账 - 总消费 - 总房费)</p>";
+	str_description += "元，当前余额为："+checkInRoomObj.leftMoney+"  元   (余额  = 总入账 - 总消费 - 总房费)</p>";
 	
 	$("#description_div").append(str_description);
 	
@@ -156,7 +148,7 @@ function openAddBalance(isSettleAccount){
 	if(isSettleAccount){
 		$("#willCheckOut_Id").val(true);
 		$("#addBalance_description_id").val("结账");
-		$("#addbalance_balance_id").val(-checkInRoomObj[0].leftMoney);
+		$("#addbalance_balance_id").val(-checkInRoomObj.leftMoney);
 		$( "#addBalanceDialog").dialog( "option", "title", "结账");
 		
 		//不可修改

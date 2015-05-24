@@ -8,6 +8,22 @@
 		<welcome-file>login.jsp</welcome-file>
 		<welcome-file>main/login.jsp</welcome-file>
 	</welcome-file-list>
+
+
+	<jsp-config>
+		<jsp-property-group>
+			<description>让jsp都导入tag.jsp</description>
+			<url-pattern>*.jsp</url-pattern>
+			<include-prelude>/dynamic/fragment/tag.jsp</include-prelude>
+		</jsp-property-group>
+		<jsp-property-group>
+			<description>让jsp没有设置编码的都设置成utf-8</description>
+			<url-pattern>*.jsp</url-pattern>
+			<page-encoding>UTF-8</page-encoding>
+			<default-content-type>text/html;charset=UTF-8</default-content-type>
+		</jsp-property-group>
+	</jsp-config>
+
 	<filter>
 		<filter-name>struts 2</filter-name>
 		<filter-class>com.hotel.datamanage.ActionFilter</filter-class>

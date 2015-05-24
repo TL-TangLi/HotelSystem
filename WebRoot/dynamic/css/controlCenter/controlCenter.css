@@ -1,0 +1,39 @@
+
+.ui-menu {
+	width: 150px;
+}
+.positionable {
+	position: absolute;
+}
+
+#todayMenuId {
+	font-size: 13px;
+	clear: both;
+	/* color: #777777; */
+	padding: 10px;
+	padding-right: 20px;
+	width: 97%;
+}
+
+#todayMenuId a {
+	/* color: #2779aa; */
+	font-size: 15px;
+}
+#tabs{
+	font-size: 16px;
+	padding: 0px;
+}
+#tabs-0{
+	padding: 0px;
+}
+#neckId{
+	font-size: 12px;
+	z-index: 1;
+}
+.menu{
+	z-index: 2;
+	margin: 0px;
+	padding: 0px;
+}
+
+

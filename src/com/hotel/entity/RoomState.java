@@ -3,8 +3,6 @@ package com.hotel.entity;
 import java.util.Calendar;
 import java.util.List;
 
-import net.sf.json.JSONArray;
-
 import com.hotel.datamanage.Manager;
 import com.hotel.staticdata.StaticData;
 
@@ -52,8 +50,48 @@ public class RoomState
 	{
 		this.leftMoney = leftMoney;
 	}
-
 	
+	public Room getRoom()
+	{
+		return room;
+	}
+
+	public void setRoom(Room room)
+	{
+		this.room = room;
+	}
+
+	public RoomPrice getRoomPrice()
+	{
+		return roomPrice;
+	}
+
+	public void setRoomPrice(RoomPrice roomPrice)
+	{
+		this.roomPrice = roomPrice;
+	}
+
+	public CheckInInfo getCheckInInfo()
+	{
+		return checkInInfo;
+	}
+
+	public void setCheckInInfo(CheckInInfo checkInInfo)
+	{
+		this.checkInInfo = checkInInfo;
+	}
+
+	public RoomColor getRoomColor()
+	{
+		return roomColor;
+	}
+
+	public void setRoomColor(RoomColor roomColor)
+	{
+		this.roomColor = roomColor;
+	}
+
+
 	Manager manager;
 	
 	public RoomState(Room room, RoomPrice rp,CheckInInfo checkInInfo)
@@ -391,22 +429,7 @@ public class RoomState
 		}
 		
 		
-		
 	}
-	
-	///将roomState 转为 json数组 ，用于jsp的请求应答（requestRoomAction）  其实 完全没有必要，struts json plugin 会做的工作！引以为鉴
-	public String toJsonString()
-	{
-		JSONArray ja = new JSONArray();
-		ja.add(this);
-		ja.add(this.room);
-		ja.add(this.roomPrice);
-		ja.add(this.roomColor);
-		if(this.checkInInfo != null)
-			ja.add(this.checkInInfo);
-		return ja.toString();
-	}
-	
 	
 	
 }

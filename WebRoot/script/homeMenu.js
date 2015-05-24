@@ -142,8 +142,8 @@ function accessOrderAvalidate() {
 	switch (requestOrdercomeFrom) {
 	// 入住订单关联 (当日 某类型的 可住订单)
 	case 1:
-		roomDescription = cleanRoomObj[2].description;
-		$("#accessOrder_type").val(cleanRoomObj[1].type);
+		roomDescription = cleanRoomObj.roomPrice.description;
+		$("#accessOrder_type").val(cleanRoomObj.room.type);
 		$("#accessOrder_info").val("0");
 		$("#accessOrder_enterDate").val("now");
 		$("#accessOrder_orderDate").val("");
@@ -152,8 +152,8 @@ function accessOrderAvalidate() {
 		break;
 	// 更新房间订单关联(当日 某类型的 可住订单)
 	case 2:
-		roomDescription = checkInRoomObj[2].description;
-		$("#accessOrder_type").val(checkInRoomObj[1].type);
+		roomDescription = checkInRoomObj.roomPrice.description;
+		$("#accessOrder_type").val(checkInRoomObj.room.type);
 		$("#accessOrder_info").val("0");
 		$("#accessOrder_enterDate").val("now");
 		$("#accessOrder_orderDate").val("");
@@ -305,7 +305,7 @@ function beforeRequestEmptyRoom(n) {
 		
 	case 3:
 		//当前类型
-		$("#queryEmptyRoom_type").val(checkInRoomObj[1].type);
+		$("#queryEmptyRoom_type").val(checkInRoomObj.room.type);
 		//1 代表干净房
 		$("#queryEmptyRoom_state").val("1");
 		
@@ -380,9 +380,9 @@ function aterSelectRoomForCheckIn(id, n) {
 		//填写 目标房间 id
 		$("#switchRoom_targetId").attr("value", id);
 		//填写 现在房间 id
-		$("#switchRoom_roomId").attr("value",checkInRoomObj[1].id);
+		$("#switchRoom_roomId").attr("value",checkInRoomObj.room.id);
 		//填写 说明信息
-		$("#switchRoom_description_id").html("你正在进行的 换房操作：" + "从" + checkInRoomObj[1].id+ "换到" + id +
+		$("#switchRoom_description_id").html("你正在进行的 换房操作：" + "从" + checkInRoomObj.room.id+ "换到" + id +
 				"，请仔细核对，换房后客户信息将转移到新房间,但是账目统计中，之前产生的房费、消费以及入账都会记录在以前的房间上！，。是否继续进行？");
 		
 		//关闭对话框

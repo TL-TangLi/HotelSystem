@@ -243,7 +243,7 @@ public class RequestAction extends BaseAction
 	}
 	
 	
-	/*-----------------------------------todayRoomEntered（今日已入住的房间）-----------------------------------------*/
+	/*-----------------------------------todayRoomEntered（今日入住，今日将退，今日已住）-----------------------------------------*/
 	//和 以上的 type enterDate 组成 三个过滤器   
 	String outDate;
 	public String getOutDate()

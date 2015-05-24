@@ -15,6 +15,8 @@
 	$(function() {
 		$("input[type=submit],button").button();
 		$("input[type=text]").val('');
+		
+	
 	});
 </script>
 
