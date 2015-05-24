@@ -5,11 +5,12 @@ import java.util.List;
 
 public class Constant
 {
-	
-	static  int FAILED = 0 ;
-	static  int SUCCESS = 1 ;
-	static  boolean OPEN_ACCESS_INTERCEPTOR = true;
-	static  List<String> EXCLUDE_INTERCEPTOR ;
+
+	public static	String PROJECT_NAME = "HotelSystem";
+	public static  int FAILED = 0 ;
+	public static  int SUCCESS = 1 ;
+	public static  boolean OPEN_ACCESS_INTERCEPTOR = true;
+	public static  List<String> EXCLUDE_INTERCEPTOR ;
 	static{
 		
 		EXCLUDE_INTERCEPTOR = new ArrayList<String>();

@@ -28,8 +28,8 @@ function destroyDialog(id) {
  */
 function openMessageDialog(message,title) {
 	$("<div title='" + title + "'><p>" + message + "</p></div>").dialog({
-		width : 100,
-		height : 160,
+		width : 220,
+		height : 220,
 		buttons : {
 			确定 : function() {
 				$(this).dialog("destroy");
@@ -82,6 +82,39 @@ function openConfirmDialog(message,title,Func) {
 		}
 	});
 }
+
+
+
+//防止表单重复提交的 标记，如果为 ture 说明已经提交了，处理完后，将其置为true
+var isOperating = false;
+
+////sx:submit 异步获取数据 在infoDialog 上显示
+function getResult(data,dialog){
+	document.getElementById("info").innerHTML=data;
+	dialogClose(dialog);
+	$("#infoDialog").dialog({width:270,height:200, modal: true});
+	$( "#infoDialog" ).dialog( "option","title","消息");
+	
+	//处理完成 isOperating 置为false
+	isOperating =false;
+};
+
+/**
+ * @param eventName 		发布事件名字
+ * @param closeDialogId		处理完成后将要关闭的 dialogId
+ */
+function dojoSubscribe(eventName,closeDialogId){
+	
+	dojo.event.topic.subscribe(eventName,function myfunction(data,type,request){
+		
+		if(type =='load')
+			getResult(data,closeDialogId);
+		
+	});
+}
+
+
+
 
 /**
  * @param entityFormId		当前表单id

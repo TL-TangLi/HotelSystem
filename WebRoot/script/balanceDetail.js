@@ -90,8 +90,10 @@ $(function() {
           );
     
     
+    dojoSubscribe("/addBalanceResult","addBalanceDialog");
+    dojoSubscribe("/consumeResult","consumeDialog");
     
-  });
+});
 
 
 
@@ -216,11 +218,6 @@ function addBalanceAvalidate(){
 	return permission;
 }
 
-dojo.event.topic.subscribe("/addBalanceResult",function myfunction(data,type,request){
-	if(type =='load')
-		getResult(data,'addBalanceDialog');
-
-});
 
 
 
@@ -269,11 +266,7 @@ function consumeAvalidate(){
 	return permission;
 }
 
-dojo.event.topic.subscribe("/consumeResult",function myfunction(data,type,request){
-	if(type =='load')
-		getResult(data,'consumeDialog');
 
-});
 
 
 function resetRoomCharge(){

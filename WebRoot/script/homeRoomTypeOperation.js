@@ -57,12 +57,6 @@ function addRoomTypeAvalidate(){
 	return permission;
 }
 
-dojo.event.topic.subscribe("/addRoomTypeResult",function myfunction(data,type,request){
-	
-	if(type =='load'){
-		getResult(data,'addRoomTypeDialog');
-	}
-});
 
 
 function openUpdateRoomTypeDialog(){
@@ -133,12 +127,6 @@ function updateRoomTypeAvalidate(){
 	
 }
 
-dojo.event.topic.subscribe("/UpdateRoomTypeResult",function myfunction(data,type,request){
-	
-	if(type =='load'){
-		getResult(data,'updateRoomTypeDialog');
-	}
-});
 
 function delRoomTypeAvalidate(){
 	//如果表单已经提交正在处理，那么不要重复提交表单
@@ -157,9 +145,13 @@ function delRoomTypeAvalidate(){
 	return true;
 }
 
-dojo.event.topic.subscribe("/delRoomTypeResult",function myfunction(data,type,request){
+
+$(function(){
 	
-	if(type =='load'){
-		getResult(data,'delRoomTypeDialog');
-	}
+	dojoSubscribe("/addRoomTypeResult","addRoomTypeDialog");
+	dojoSubscribe("/delRoomTypeResult","delRoomTypeDialog");
+	dojoSubscribe("/UpdateRoomTypeResult","updateRoomTypeDialog");
+	
 });
+
+

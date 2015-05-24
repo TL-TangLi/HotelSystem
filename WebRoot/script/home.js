@@ -1,13 +1,7 @@
 ﻿///////////////////////////////////////////////////function and global
 
-//防止表单重复提交的 标记，如果为 ture 说明已经提交了，处理完后，将其置为true
-var isOperating = false;
 
-//obj[0](leftMoney,countByHour,enterCount)
-//obj[1]Room
-//obj[2]RoomPrice
-//obj[3]RoomColor
-//obj[4]CheckInInfo
+
 //////属性不能以 is 开头！  如：isAvaliable 被转换成 avaliable 了！！！
 var obj;
 
@@ -24,16 +18,6 @@ function dialogClose(dialogname){
 	
 };
 
-////sx:submit 异步获取数据 在infoDialog 上显示
-function getResult(data,dialog){
-	document.getElementById("info").innerHTML=data;
-	dialogClose(dialog);
-	$("#infoDialog").dialog({width:270,height:200, modal: true});
-	$( "#infoDialog" ).dialog( "option","title","消息");
-	
-	//处理完成 isOperating 置为false
-	isOperating =false;
-};
 
 ///房间类型  表单 生成  List列表
 function  jsonToRoomTypeListSelect(trId,selectId,data){
@@ -251,13 +235,6 @@ function checkInAvalidate(){
 	
 };
 
-dojo.event.topic.subscribe("/checkInResult",function myfunction(data,type,request){
-	
-	if(type =='load'){
-		getResult(data,'checkInDialog');
-	}
-
-});
 
 
 
@@ -289,12 +266,6 @@ function changeRoomTypeAvaliable(){
 	return true;
 }
 
-dojo.event.topic.subscribe("/requestChangeRoomTypeResult",function myfunction(data,type,request){
-	
-	if(type =='load')
-		getResult(data,'changeRoomDialog');
-	
-});
 
 
 /////////////////////////////////////////////////////////////////////////脏房 不可用房 干净房 切换  以及房间删除
@@ -336,19 +307,6 @@ function changeRoomStateAvaliable(){
 	return true;
 }
 
-dojo.event.topic.subscribe("/requestChangeRoomStateFromCleanToDirtyResult",function myfunction(data,type,request){
-	
-	if(type =='load')
-		getResult(data,'checkInDialog');
-	
-});
-
-dojo.event.topic.subscribe("/requestChangeRoomStateResult",function myfunction(data,type,request){
-	
-	if(type =='load')
-		getResult(data,'changeRoomDialog');
-	
-});
 
 
 
@@ -465,12 +423,7 @@ function updateCheckInInfoAvalidate(){
 	return permission ;
 } 
 
-dojo.event.topic.subscribe("/updateCheckInInfoResult",function myfunction(data,type,request){
-	
-	if(type =='load')
-		getResult(data,'updateCheckInInfoDialog');
 
-});
 
 //////////////////////////// 换房
 //将房间号以及余额填入退房表单
@@ -484,11 +437,6 @@ function switchRoomAvalidate(){
 	return true;
 }
 
-dojo.event.topic.subscribe("/switchRoomResult",function myfunction(data,type,request){
-	if(type =='load')
-		getResult(data,'updateCheckInInfoDialog');
-
-});
 
 
 ////////////////////////////账单
@@ -527,14 +475,6 @@ function continueCheckInAvalidate(){
 	isOperating = true;
 	return true;
 }
-
-dojo.event.topic.subscribe("/continueCheckInResult",function myfunction(data,type,request){
-	if(type =='load')
-		getResult(data,'continueCheckInDialog');
-	
-});
-
-
 
 
 
@@ -581,13 +521,6 @@ function addRoomAvalidate(){
 	
 }
 
-dojo.event.topic.subscribe("/addRoomResult",function myfunction(data,type,request){
-	
-	if(type =='load')
-		getResult(data,'addRoomDialog');
-	
-});
-
 
 
 
@@ -611,102 +544,129 @@ function menueClickRequestRoomTypeList(requestId){
 	isOperating = true;
 }
 
-dojo.event.topic.subscribe("/requestRoomTypeListResult",function myfunction(data,type,request){
-	
-	if(type =='load'){
-		
-		switch(requestRoomTypeListComFrom)
-		{
-		
-		//添加房间对话框
-		case 1:
-			
-			jsonToRoomTypeListSelect("addRoom_room_type_td","roomType_list_addRoom",data);
-			
-			$("#addRoomDialog").dialog({width:450,height:260,modal:true});
-			$( "#addRoomDialog" ).dialog( "option", "title","添加房间");
 
-			$("#roomType_list_addRoom").attr("name","type");
-			break;
+
+
+
+$(function(){
+	
+	//入住
+	dojoSubscribe("/checkInResult","checkInDialog");
+	//添加房间
+	dojoSubscribe("/addRoomResult","addRoomDialog");
+	//改变房间类型
+	dojoSubscribe("/requestChangeRoomTypeResult","changeRoomDialog");
+	//改变房间状态--到脏房
+	dojoSubscribe("/requestChangeRoomStateFromCleanToDirtyResult","checkInDialog");
+	//改变房间状态
+	dojoSubscribe("/requestChangeRoomStateResult","changeRoomDialog");
+	//入住信息修改
+	dojoSubscribe("/updateCheckInInfoResult","updateCheckInInfoDialog");
+	//换房
+	dojoSubscribe("/switchRoomResult","updateCheckInInfoDialog");
+	//续住
+	dojoSubscribe("/continueCheckInResult","continueCheckInDialog");
+
+	//房间类型列表
+	dojo.event.topic.subscribe("/requestRoomTypeListResult",function myfunction(data,type,request){
 		
+		if(type =='load'){
 			
-		//添加订单对话框
-		case 2:
-			//将select 加入 表单
-			jsonToRoomTypeListSelect("addOrder_od_roomType_td","roomType_list_addOrder",data);
-			$("#addOrderDialog").dialog({width:450,height:460,modal:true});
-			$( "#addOrderDialog" ).dialog( "option", "title","添加订单");
-			$("#roomType_list_addOrder").attr("name","od.roomType");
-			break;
-		//删除 房间类型	
-		case 3:
-			jsonToRoomTypeListSelect("delRoomType-select","roomType_list_delRoomType",data);
-			$("#delRoomTypeDialog").dialog({width:280,height:190,modal:true});
-			$( "#delRoomTypeDialog" ).dialog( "option", "title","删除房间类型");
-			//指定select 名字
-			$("#roomType_list_delRoomType").attr("name","type");
+			switch(requestRoomTypeListComFrom)
+			{
 			
-			break;
-		//修改房间类型	
-		case 4:
+			//添加房间对话框
+			case 1:
+				
+				jsonToRoomTypeListSelect("addRoom_room_type_td","roomType_list_addRoom",data);
+				
+				$("#addRoomDialog").dialog({width:450,height:260,modal:true});
+				$( "#addRoomDialog" ).dialog( "option", "title","添加房间");
+	
+				$("#roomType_list_addRoom").attr("name","type");
+				break;
 			
-			jsonToRoomTypeListSelect("updateRoomType-select","roomType_list_updateRoomType",data);
-			$("#roomType_list_updateRoomType").attr("name","type");
-			openUpdateRoomTypeDialog();
-			break;
-			
-		//订单修改	 显示 并填写
-		case 5:
-			jsonToRoomTypeListSelect("updateOrderRoomType_td","roomType_list_updateOrder",data);
-			
-			$("#roomType_list_updateOrder").attr("name","od.roomType");
-			
-			$("#roomType_list_updateOrder").val(orderObj.roomType);
-			
-			$("#accessOneOrderDialog").dialog({width:470,height:460});
-			$( "#accessOneOrderDialog" ).dialog( "option", "title","修改订单");
-			
-			break;
-			
-		//修改某个房间
-		case 6:
-			
-			//清空 select
-			$("#changeRoomState_select").empty();
-			
-			//脏房
-			if(obj.roomColor.id == 2){
-				//添加相应select item
-				$("#changeRoomState_select")
-					.append("<option value=1>干净房</option>")
-					.append("<option value=6>不可用房</option>");
-				if(userLevel <=0)
-					$("#changeRoomState_select").append("<option value=0>删除房间</option>");
-			}
-			//不可用房 obj.roomColor.id == 6
-			else{
-				$("#changeRoomState_select")
-					.append("<option value=2>脏房</option>")
-					.append("<option value=1>干净房</option>");
+				
+			//添加订单对话框
+			case 2:
+				//将select 加入 表单
+				jsonToRoomTypeListSelect("addOrder_od_roomType_td","roomType_list_addOrder",data);
+				$("#addOrderDialog").dialog({width:450,height:460,modal:true});
+				$( "#addOrderDialog" ).dialog( "option", "title","添加订单");
+				$("#roomType_list_addOrder").attr("name","od.roomType");
+				break;
+			//删除 房间类型	
+			case 3:
+				jsonToRoomTypeListSelect("delRoomType-select","roomType_list_delRoomType",data);
+				$("#delRoomTypeDialog").dialog({width:280,height:190,modal:true});
+				$( "#delRoomTypeDialog" ).dialog( "option", "title","删除房间类型");
+				//指定select 名字
+				$("#roomType_list_delRoomType").attr("name","type");
+				
+				break;
+			//修改房间类型	
+			case 4:
+				
+				jsonToRoomTypeListSelect("updateRoomType-select","roomType_list_updateRoomType",data);
+				$("#roomType_list_updateRoomType").attr("name","type");
+				openUpdateRoomTypeDialog();
+				break;
+				
+			//订单修改	 显示 并填写
+			case 5:
+				jsonToRoomTypeListSelect("updateOrderRoomType_td","roomType_list_updateOrder",data);
+				
+				$("#roomType_list_updateOrder").attr("name","od.roomType");
+				
+				$("#roomType_list_updateOrder").val(orderObj.roomType);
+				
+				$("#accessOneOrderDialog").dialog({width:470,height:460});
+				$( "#accessOneOrderDialog" ).dialog( "option", "title","修改订单");
+				
+				break;
+				
+			//修改某个房间
+			case 6:
+				
+				//清空 select
+				$("#changeRoomState_select").empty();
+				
+				//脏房
+				if(obj.roomColor.id == 2){
+					//添加相应select item
+					$("#changeRoomState_select")
+						.append("<option value=1>干净房</option>")
+						.append("<option value=6>不可用房</option>");
 					if(userLevel <=0)
 						$("#changeRoomState_select").append("<option value=0>删除房间</option>");
+				}
+				//不可用房 obj.roomColor.id == 6
+				else{
+					$("#changeRoomState_select")
+						.append("<option value=2>脏房</option>")
+						.append("<option value=1>干净房</option>");
+						if(userLevel <=0)
+							$("#changeRoomState_select").append("<option value=0>删除房间</option>");
+				}
+				
+				//填写 类型列表
+				jsonToRoomTypeListSelect("changeRoomType_list_td","changeRoomType_list",data);
+				
+				$("#changeRoomType_list").attr("name","changeRoomType");
+				$("#changeRoomDialog").dialog({width:320,height:270});
+				$("#changeRoomDialog" ).dialog( "option", "title",obj.room.id +"(" +obj.roomPrice.description+")" + "修改房间");
+				
+				break;
+				
 			}
 			
-			//填写 类型列表
-			jsonToRoomTypeListSelect("changeRoomType_list_td","changeRoomType_list",data);
-			
-			$("#changeRoomType_list").attr("name","changeRoomType");
-			$("#changeRoomDialog").dialog({width:320,height:270});
-			$("#changeRoomDialog" ).dialog( "option", "title",obj.room.id +"(" +obj.roomPrice.description+")" + "修改房间");
-			
-			break;
-			
+			//处理完成 isOperating 置为false
+			isOperating =false;
 		}
 		
-		//处理完成 isOperating 置为false
-		isOperating =false;
-	}
+	});
 });
+
 
 
 

@@ -61,18 +61,20 @@ public class AccessInterceptor extends AbstractInterceptor
 		// //如果登录超时
 		if (ActionContext.getContext().getSession().get("user") == null)
 		{
-			// 是ajax访问
-			if (null != isAjax && isAjax.equalsIgnoreCase("xmlhttprequest"))
-			{
-				response.setCharacterEncoding("UTF-8");
-				response.getWriter().print("{\"result\":"+Constant.FAILED+",\"message\":\"登录超时，请重新登录\"}");
-
-			}
-			// 不是ajax定位到登录页面
-			else
-			{
-				response.sendRedirect("/main/login.jsp");
-			}
+			response.setCharacterEncoding("UTF-8");
+			response.getWriter().print("{\"result\":"+Constant.FAILED+",\"message\":\"登录超时，请重新登录\"}");
+//			// 是ajax访问
+//			if (null != isAjax && isAjax.equalsIgnoreCase("xmlhttprequest"))
+//			{
+//				response.setCharacterEncoding("UTF-8");
+//				response.getWriter().print("{\"result\":"+Constant.FAILED+",\"message\":\"登录超时，请重新登录\"}");
+//
+//			}
+//			// 不是ajax定位到登录页面
+//			else
+//			{
+//				response.sendRedirect("/"+Constant.PROJECT_NAME+"/main/login.jsp");
+//			}
 			return null;
 		}
 

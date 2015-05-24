@@ -107,19 +107,6 @@ function requestOrder(oid){
 	
 }
 
-dojo.event.topic.subscribe("/accessOneOrderResult",function myfunction(data,type,request){
-	if(type =='load'){
-		document.getElementById("accessOneOrderDialog").innerHTML=data;
-		$("#accessOneOrderDialog").dialog({width:450,height:400});
-		$( "#accessOneOrderDialog" ).dialog( "option", "title","订单操作");
-		
-		//处理完成 isOperating 置为false
-		isOperating =false;
-	}
-		
-});
-
-
 
 
 
@@ -191,11 +178,6 @@ function delOrderAvalidate(){
 	return true;
 }
 
-dojo.event.topic.subscribe("/delAndUpdateOrderResult",function somefunction(data,type,request){
-	if(type =='load'){
-		getResult(data,'accessOneOrderDialog');
-	}
-});
 
 
 
@@ -281,9 +263,23 @@ function addOrderAvalidate(){
 	return permission;
 }
 
-dojo.event.topic.subscribe("/addOrderResult",function myfunction(data,type,request){
+
+
+$(function(){
 	
-	if(type =='load')
-		getResult(data,'addOrderDialog');
+	dojoSubscribe("/addOrderResult","addOrderDialog");
+	dojoSubscribe("/delAndUpdateOrderResult","accessOneOrderDialog");
+	dojo.event.topic.subscribe("/accessOneOrderResult",function myfunction(data,type,request){
+		if(type =='load'){
+			document.getElementById("accessOneOrderDialog").innerHTML=data;
+			$("#accessOneOrderDialog").dialog({width:450,height:400});
+			$( "#accessOneOrderDialog" ).dialog( "option", "title","订单操作");
+			
+			//处理完成 isOperating 置为false
+			isOperating =false;
+		}
+			
+	});
+
 });
 
