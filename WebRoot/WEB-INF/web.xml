@@ -14,7 +14,7 @@
 		<jsp-property-group>
 			<description>让jsp都导入tag.jsp</description>
 			<url-pattern>*.jsp</url-pattern>
-			<include-prelude>/dynamic/fragment/tag.jsp</include-prelude>
+			<include-prelude>/dynamic/fragment/head.jsp</include-prelude>
 		</jsp-property-group>
 		<jsp-property-group>
 			<description>让jsp没有设置编码的都设置成utf-8</description>

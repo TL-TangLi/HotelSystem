@@ -1,7 +1,20 @@
-<script src="${dynamicRes }/fragment/jquery-2.0.0.min.js"></script>
-<link href="${staticRes }/bootstrap-3.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
-<script src="${staticRes }/bootstrap-3.3.1/dist/js/bootstrap.min.js"></script>
-<!-- <link href="http://apps.bdimg.com/libs/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet"> -->
-<!-- <script src="http://apps.bdimg.com/libs/jquery/2.0.0/jquery.min.js"></script> -->
-<!-- <script src="http://apps.bdimg.com/libs/bootstrap/3.3.0/js/bootstrap.min.js"></script> -->
-    
+<%@ page language="java" contentType="text/html; charset=utf-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<c:set var="ctx" value="${pageContext.request.contextPath}"/>
+<c:set var="staticRes" value="${pageContext.request.contextPath}/static"/>
+<c:set var="dynamicRes" value="${pageContext.request.contextPath}/dynamic"/>
+<c:set var="basePath" value="${pageContext.request.scheme}://${pageContext.request.serverName}:${pageContext.request.serverPort}"/>
+<html>    
+<head>
+	<script type="text/javascript" src="${dynamicRes}/js/common/common.js"></script>
+</head>
+
+<body>
+
+	<div id="msgDialog"></div>
+</body>
+
+</html>
