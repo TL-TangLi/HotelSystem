@@ -11,15 +11,6 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>房间<s:property value="roomId"/>账单</title>
 
-	<link rel="stylesheet" href="../jquery/pepper-grinder/jquery-ui.css" />
-	<link rel="stylesheet" href="../jquery/pepper-grinder/jquery-ui.min.css" />
-	<link rel="stylesheet" href="../css/home.css" />
-	
-	
-	<script src="../jquery/jquery-1.9.1.js"></script>
-	<script src="../jquery/jquery-ui-1.10.1.custom.js"></script>
-	<script src="../jquery/jquery.ui.datepicker-zh-TW.js"></script>
-	
 	<script src="../script/home.js" charset="UTF-8"></script>
 	<script src="../script/balanceDetail.js" charset="UTF-8"></script>
 

@@ -6,8 +6,6 @@
     
     <title>innitial</title>
     
-<script src="../jquery/jquery-1.9.1.js"></script>
-<script src="../script/home.js" charset="UTF-8"></script>
 <script >
 
   $(function() {

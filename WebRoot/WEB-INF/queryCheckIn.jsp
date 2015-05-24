@@ -10,16 +10,6 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>入住信息统计</title>
-
-	<link rel="stylesheet" href="../jquery/jquery-ui.css" />
-	<link rel="stylesheet" href="../jquery/jquery-ui.min.css" />
-	<link rel="stylesheet" href="../css/home.css">
-	
-	
-	<script src="../jquery/jquery-1.9.1.js"></script>
-	<script src="../jquery/jquery-ui-1.10.1.custom.js"></script>
-	<script src="../jquery/jquery.ui.datepicker-zh-TW.js"></script>
-	
 	
 	<script src="../script/queryCheckIn.js" charset="UTF-8"></script>
 

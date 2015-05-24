@@ -4,10 +4,7 @@
 <html>
 <head>
 <title>管理员登录</title>
-<script src="../jquery/jquery-1.9.1.js"></script>
-<script src="../jquery/jquery-ui-1.10.1.custom.js"></script>
-<link rel="stylesheet" href="../jquery/jquery-ui.min.css" />
-<link rel="stylesheet" href="../css/login.css">
+<link rel="stylesheet" href="${dynamicRes}/css/login.css">
 
 <link rel="Shortcut Icon" href="../ico/login.ico" />
 

@@ -3,12 +3,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
- 	 <link rel="stylesheet" href="../jquery/jquery-ui.css" />
-	<link rel="stylesheet" href="../jquery/jquery-ui.min.css" />
-	
-	<script src="../jquery/jquery-1.9.1.js"></script>
-	<script src="../jquery/jquery-ui-1.10.1.custom.js"></script>
-	   
     <title>房间剩余统计</title>
     
 <script>

@@ -116,6 +116,27 @@ function dojoSubscribe(eventName,closeDialogId){
 
 
 
+//获取 今日日期 字符串  xxxx-xx-xx 形式
+function todayToString(){
+	var date = new Date();
+	var str = date.getFullYear()+"-";
+	
+	if(date.getMonth()<9)
+		str += "0"+(date.getMonth()+1)+"-";
+	else
+		str += (date.getMonth()+1)+"-";
+	
+	if(date.getDate()<10)
+		str += "0"+date.getDate();
+	else
+		str += date.getDate();
+	
+	return str;
+}
+
+
+
+
 /**
  * @param entityFormId		当前表单id
  * @param id				要删除的Entity的标识符表单名字（会从表单中取出该字段）。

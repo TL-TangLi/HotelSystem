@@ -11,14 +11,8 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>订单查询</title>
 
-	<link rel="stylesheet" href="../jquery/redmond/jquery-ui.css" />
-	<link rel="stylesheet" href="../jquery/redmond/jquery-ui.min.css" />
-	<link rel="stylesheet" href="../css/home.css">
-	
-	
-	<script src="../jquery/jquery-1.9.1.js"></script>
-	<script src="../jquery/jquery-ui-1.10.1.custom.js"></script>
-	<script src="../jquery/jquery.ui.datepicker-zh-TW.js"></script>
+<!-- 	<link rel="stylesheet" href="../jquery/redmond/jquery-ui.css" /> -->
+<!-- 	<link rel="stylesheet" href="../jquery/redmond/jquery-ui.min.css" /> -->
 	
 	<script src="../script/homeOrder.js" charset="UTF-8"></script>
 	<script src="../script/home.js" charset="UTF-8"></script>

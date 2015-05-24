@@ -6,7 +6,6 @@
     
     <title>innitial</title>
     
-<script src="../jquery/jquery-1.9.1.js"></script>
 <script >
 	function getQueryString(name) {
 	    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");

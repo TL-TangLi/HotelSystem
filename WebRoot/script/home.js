@@ -37,26 +37,6 @@ function  jsonToRoomTypeListSelect(trId,selectId,data){
 	
 }
 
-//获取 今日日期 字符串  xxxx-xx-xx 形式
-function todayToString(){
-	var date = new Date();
-	var str = date.getFullYear()+"-";
-	
-	if(date.getMonth()<9)
-		str += "0"+(date.getMonth()+1)+"-";
-	else
-		str += (date.getMonth()+1)+"-";
-	
-	if(date.getDate()<10)
-		str += "0"+date.getDate();
-	else
-		str += date.getDate();
-	
-	return str;
-}
-
-
-
 ///////////////////////////////////////////////////////////访问单个房间 。。第二个参数 openDialog 唯一作用便是在打开账单时，
 //////////////////////////////////////////////请求房间信息，不打开对话框,而是调用 balancDetail.js 文件中的 afterAccessCheckInRoom()
 
