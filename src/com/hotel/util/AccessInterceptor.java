@@ -1,5 +1,6 @@
 package com.hotel.util;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -62,7 +63,11 @@ public class AccessInterceptor extends AbstractInterceptor
 		if (ActionContext.getContext().getSession().get("user") == null)
 		{
 			response.setCharacterEncoding("UTF-8");
-			response.getWriter().print("{\"result\":"+Constant.FAILED+",\"message\":\"登录超时，请重新登录\"}");
+//			response.getWriter().print("{\"result\":"+Constant.FAILED+",\"message\":\"登录超时，请重新登录\"}");
+			
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/main/login.jsp");
+			dispatcher.forward(request, response);
+			
 //			// 是ajax访问
 //			if (null != isAjax && isAjax.equalsIgnoreCase("xmlhttprequest"))
 //			{
