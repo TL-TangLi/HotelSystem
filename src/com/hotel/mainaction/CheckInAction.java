@@ -118,7 +118,44 @@ public class CheckInAction extends BaseAction implements ModelDriven<CheckInInfo
 	public String enterDateEnd;
 	public String outDateBegin;
 	public String outDateEnd;
+	public String guestName;
+	public String remark;
+	public String phone;
+	public String roomName;
+	 
 	
+	public String getGuestName()
+	{
+		return guestName;
+	}
+	public void setGuestName(String guestName)
+	{
+		this.guestName = guestName;
+	}
+	public String getRoomName()
+	{
+		return roomName;
+	}
+	public void setRoomName(String roomName)
+	{
+		this.roomName = roomName;
+	}
+	public String getRemark()
+	{
+		return remark;
+	}
+	public void setRemark(String remark)
+	{
+		this.remark = remark;
+	}
+	public String getPhone()
+	{
+		return phone;
+	}
+	public void setPhone(String phone)
+	{
+		this.phone = phone;
+	}
 	public String getEnterDateBegin()
 	{
 		return enterDateBegin;
@@ -151,6 +188,7 @@ public class CheckInAction extends BaseAction implements ModelDriven<CheckInInfo
 	{
 		this.outDateEnd = outDateEnd;
 	}
+
 	public String query()
 	{
 		
@@ -163,7 +201,7 @@ public class CheckInAction extends BaseAction implements ModelDriven<CheckInInfo
 		if(outDateEnd.equals(""))
 			outDateEnd =null;
 		
-		listCheckInInfo = manager.getCheckInInfoByFilter(enterDateBegin,enterDateEnd,outDateBegin,outDateEnd);
+		listCheckInInfo = manager.getCheckInInfoByFilter(enterDateBegin,enterDateEnd,outDateBegin,outDateEnd, guestName, remark, roomName, phone);
 		for(CheckInInfo info:listCheckInInfo)
 		{
 			info.allAddBalance = manager.sumAccountByFilter(info.id,-1,0,null,null);
@@ -199,6 +237,7 @@ public class CheckInAction extends BaseAction implements ModelDriven<CheckInInfo
 	{
 		this.continueDays = continueDays;
 	}
+
 	public String requestContinue()
 	{
 		requestResult =  manager.continueCheckIn(roomId,continueDays);

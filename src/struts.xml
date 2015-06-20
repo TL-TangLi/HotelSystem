@@ -169,15 +169,15 @@
 			</result>
 			<result name="requestConsumeFailed" type="redirectAction">
 				<param name="namespace">/main</param>
-				<param name="actionName">requestAllRoomAction</param>
+				<param name="actionName">roomTrendAction</param>
 			</result>
 			<result name="requestAddBalanceFailed" type="redirectAction">
 				<param name="namespace">/main</param>
-				<param name="actionName">requestAllRoomAction</param>
+				<param name="actionName">roomTrendAction</param>
 			</result>
 			<result name="requestBalanceDetailHadCheckOutFaild" type="redirectAction">
 				<param name="namespace">/main</param>
-				<param name="actionName">requestAllRoomAction</param>
+				<param name="actionName">roomTrendAction</param>
 			</result>
 			<result name="resetRoomChargeActionSuccess" type="redirectAction">
 				<param name="namespace">/main</param>

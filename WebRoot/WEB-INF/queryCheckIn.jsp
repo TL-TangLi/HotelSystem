@@ -32,25 +32,60 @@
 	  <h1 align="center" class="ui-widget-header title">入住信息统计</h1>
 	  
 	  <div  class="ui-widget-content serchDiv" >
-		 <s:form theme="simple">
-			入住时间段：
-			<s:textfield id ="enterDateBegin_id" name = "enterDateBegin" readonly="true"  ></s:textfield>
-			<button id="enterDateBegin_ignore_button" type = "button" onclick="ignoreDate(1)"></button>到
-			<s:textfield id ="enterDateEnd_id" name = "enterDateEnd" readonly="true"  ></s:textfield>
-			<button id="enterDateEnd_ignore_button" type = "button" onclick="ignoreDate(2)"></button>&nbsp;&nbsp;&nbsp;
-			
-			退房时间段：
-			<s:textfield id ="outDateBegin_id" name = "outDateBegin" readonly="true"  ></s:textfield>
-			<button id="outDateBegin_ignore_button" type = "button" onclick="ignoreDate(3)"></button>到
-			<s:textfield id ="outDateEnd_id" name = "outDateEnd" readonly="true"  ></s:textfield>
-			<button id="outDateEnd_ignore_button" type = "button" onclick="ignoreDate(4)"></button>&nbsp;&nbsp;&nbsp;
-			
-			查找:<s:submit  type="button" id="query_submit"></s:submit>
-			<c:if test="${sessionScope.user.level <= -1}">
-				删除所选:<button id="delButton" type="button" onclick="chkbox_del()"></button>
-			</c:if>
-		 </s:form> 
-	  </div>
+			<s:form theme="simple">
+			<table>
+				<tr>
+					<td>姓名：</td>
+					<td><s:textfield id="guestName" name="guestName" ></s:textfield><button class="ignorButton" type="button"
+							onclick="ignoreById('guestName')"></button></td>		
+					<td>联系电话：</td>
+					<td><s:textfield id="phone" name="phone" ></s:textfield><button class="ignorButton" type="button"
+							onclick="ignoreById('phone')"></button></td>		
+					<td>&nbsp;&nbsp;&nbsp; 入住时间段：</td>
+					<td><s:textfield id="enterDateBegin_id" name="enterDateBegin"
+							readonly="true"></s:textfield>
+						<button id="enterDateBegin_ignore_button" type="button" class="ignorButton"
+							onclick="ignoreById('enterDateBegin_id')"></button></td>
+					<td>到</td>
+					<td><s:textfield id="enterDateEnd_id" name="enterDateEnd"
+							readonly="true"></s:textfield>
+						<button id="enterDateEnd_ignore_button" type="button" class="ignorButton"
+							onclick="ignoreById('enterDateEnd_id')"></button></td>
+				</tr>
+				<tr>		
+					<td>房间号：</td>
+					<td><s:textfield id="roomName" name="roomName" ></s:textfield><button class="ignorButton" type="button"
+							onclick="ignoreById('roomName')"></button></td>		
+					<td>说明：</td>
+					<td><s:textfield id="remark" name="remark" ></s:textfield><button class="ignorButton" type="button"
+							onclick="ignoreById('remark')"></button></td>		
+					
+					<td>&nbsp;&nbsp;&nbsp; 退房时间段：</td>
+					<td><s:textfield id="outDateBegin_id" name="outDateBegin"
+							readonly="true"></s:textfield>
+						<button id="outDateBegin_ignore_button" type="button" class="ignorButton"
+							onclick="ignoreById('outDateBegin_id')"></button></td>
+					<td>到</td>
+					<td><s:textfield id="outDateEnd_id" name="outDateEnd"
+							readonly="true"></s:textfield>
+						<button id="outDateEnd_ignore_button" type="button" class="ignorButton"
+							onclick="ignoreById('outDateEnd_id')"></button></td> &nbsp;&nbsp;&nbsp;
+				</tr>
+			</table>
+			<table align="center">
+				<tr>
+					<td>查找:</td>
+					<td><s:submit type="button" id="query_submit"></s:submit></td>
+					<c:if test="${sessionScope.user.level <= -1}">
+						<td>删除所选:</td>
+						<td>
+							<button id="delButton" type="button" onclick="chkbox_del()"></button>
+						</td>
+					</c:if>
+				</tr>
+			</table>
+		</s:form>
+	</div>
 	  <%
 	  	int i = 0;
 	  	int j = 0;

@@ -21,6 +21,7 @@ import com.hotel.entity.RoomColor;
 import com.hotel.entity.RoomPrice;
 import com.hotel.entity.User;
 import com.hotel.staticdata.StaticData;
+import com.hotel.util.Common;
 import com.sun.rowset.CachedRowSetImpl;
 
 
@@ -47,6 +48,17 @@ public class DataAccessFromSqlite extends DataAccess
 	// /所有sql 语句执行 。返回 CachedRowSet 若没有数据返回 那么返回null
 	public CachedRowSet execSQL(String sql, Object... objects)
 			throws MyException
+	{
+		return execSQLArrayParameter(sql, objects);
+	}
+
+	/**
+	 * @param sql
+	 * @param objects
+	 * @return
+	 * @throws MyException
+	 */
+	private CachedRowSet execSQLArrayParameter(String sql, Object[] objects) throws MyException
 	{
 		ResultSet resultSet = null;
 		PreparedStatement preparedStatement = null;
@@ -667,94 +679,36 @@ public class DataAccessFromSqlite extends DataAccess
 	public int countFilteredOrder(int roomType,int info, String enterDate,String orderDate)
 			throws MyException
 	{
-		CachedRowSet crs = null;
 		
 //		select count(*) from order_data where date(orderTime) = date('2013-03-30') and
 //		enterDate = date('now') and roomType = 1 and info = 0
-		//如果订单类型忽略
-		if(info == Order.ORDER_TYPE_IGNORE)
+		
+		ArrayList<Object> list = new ArrayList<Object>();
+		StringBuffer sql = new StringBuffer("select count(*) from order_data where 1 = 1 ");
+		if (info != Order.ORDER_TYPE_IGNORE)
 		{
-			//如果房间类型忽略
-			if(roomType == StaticData.ROOM_TYPE_IGNORE)
-			{
-				//如果入住时间忽略
-				if(enterDate == null)
-				{
-					//如果下单日期忽略
-					if(orderDate ==  null)
-						crs = execSQL("select count(*) from order_data");
-					else
-						crs = execSQL("select count(*) from order_data where date(orderTime) = date(?,'localtime')",orderDate);
-				}
-				else
-				{
-					if(orderDate == null)
-						crs = execSQL("select count(*) from order_data where enterDate == date(?,'localtime')",enterDate);
-					else
-						crs = execSQL("select count(*) from order_data where enterDate == date(?,'localtime') and date(orderTime) = date(?,'localtime')",enterDate,orderDate);
-				}
-				
-			}
-			else
-			{
-					if(enterDate == null)
-					{
-						if(orderDate ==  null)
-							crs = execSQL("select count(*) from order_data where roomType = ?",roomType);
-						else
-							crs = execSQL("select count(*) from order_data where roomType = ? and date(orderTime) = date(?,'localtime')",roomType,orderDate);
-					}
-					else
-					{
-						if(orderDate == null)
-							crs = execSQL("select count(*) from order_data where roomType = ? and enterDate == date(?,'localtime')",roomType,enterDate);
-						else
-							crs = execSQL("select count(*) from order_data where roomType = ? and enterDate == date(?,'localtime') and date(orderTime) = date(?,'localtime')",roomType,enterDate,orderDate);
-					}
-					
-			}
+			list.add(info);
+			sql.append(" and info = ? ");
 		}
-			
-		else
+		if (roomType != StaticData.ROOM_TYPE_IGNORE)
 		{
-			if(roomType == StaticData.ROOM_TYPE_IGNORE)
-			{
-				if(enterDate == null)
-				{
-					if(orderDate ==  null)
-						crs = execSQL("select count(*) from order_data where info = ?",info);
-					else
-						crs = execSQL("select count(*) from order_data where info = ? and date(orderTime) = date(?,'localtime')",info,orderDate);
-				}
-				else
-				{
-					if(orderDate == null)
-						crs = execSQL("select count(*) from order_data where info = ? and enterDate == date(?,'localtime')",info,enterDate);
-					else
-						crs = execSQL("select count(*) from order_data where info = ? and enterDate == date(?,'localtime') and date(orderTime) = date(?,'localtime')",info,enterDate,orderDate);
-				}
-				
-			}
-			else
-			{
-					if(enterDate == null)
-					{
-						if(orderDate ==  null)
-							crs = execSQL("select count(*) from order_data where info = ? and roomType = ?",info,roomType);
-						else
-							crs = execSQL("select count(*) from order_data where info = ? and roomType = ? and date(orderTime) = date(?,'localtime')",info,roomType,orderDate);
-					}
-					else
-					{
-						if(orderDate == null)
-							crs = execSQL("select count(*) from order_data where info = ? and roomType = ? and enterDate == date(?,'localtime')",info,roomType,enterDate);
-						else
-							crs = execSQL("select count(*) from order_data where info = ? and roomType = ? and enterDate == date(?,'localtime') and date(orderTime) = date(?,'localtime')",info,roomType,enterDate,orderDate);
-					}
-					
-			}
+			sql.append(" and  roomType = ? ");
+			list.add(roomType);
+		}
+		if (Common.notJustEmptyChar(enterDate))
+		{
+			sql.append(" and enterDate == date(?,'localtime') ");
+			list.add(enterDate);
+		}
+		if (Common.notJustEmptyChar(orderDate))
+		{
+
+			sql.append(" and date(orderTime) = date(?,'localtime') ");
+			list.add(orderDate);
 		}
 		
+		CachedRowSet crs = execSQLArrayParameter(sql.toString(),list.toArray());
+	
 		try
 		{
 			if (crs.next())
@@ -771,97 +725,37 @@ public class DataAccessFromSqlite extends DataAccess
 	public List<Order> getFilteredOrder(int roomType, int info,String enterDate ,String orderDate)
 			throws MyException
 	{
-		CachedRowSet crs = null;
-		//如果订单类型忽略
-		if(info == Order.ORDER_TYPE_IGNORE)
+		ArrayList<Object> list = new ArrayList<Object>();
+		StringBuffer sql = new StringBuffer("select * from order_data where 1 = 1 ");
+		if (info != Order.ORDER_TYPE_IGNORE)
 		{
-			//如果房间类型忽略
-			if(roomType == StaticData.ROOM_TYPE_IGNORE)
-			{
-				//如果入住时间忽略
-				if(enterDate == null)
-				{
-					//如果下单日期忽略
-					if(orderDate ==  null)
-						crs = execSQL("select * from order_data");
-					else
-						crs = execSQL("select * from order_data where date(orderTime) = date(?,'localtime')",orderDate);
-				}
-				else
-				{
-					if(orderDate == null)
-						crs = execSQL("select * from order_data where date(enterDate) == date(?,'localtime')",enterDate);
-					else
-						crs = execSQL("select * from order_data where date(enterDate) == date(?,'localtime') and date(orderTime) = date(?,'localtime')",enterDate,orderDate);
-				}
-				
-			}
-			else
-			{
-					if(enterDate == null)
-					{
-						if(orderDate ==  null)
-							crs = execSQL("select * from order_data where roomType = ?",roomType);
-						else
-							crs = execSQL("select * from order_data where roomType = ? and date(orderTime) = date(?,'localtime')",roomType,orderDate);
-					}
-					else
-					{
-						if(orderDate == null)
-							crs = execSQL("select * from order_data where roomType = ? and date(enterDate) == date(?,'localtime')",roomType,enterDate);
-						else
-							crs = execSQL("select * from order_data where roomType = ? and date(enterDate) == date(?,'localtime') and date(orderTime) = date(?,'localtime')",roomType,enterDate,orderDate);
-					}
-					
-			}
+			list.add(info);
+			sql.append(" and info = ? ");
 		}
-			
-		else
+		if (roomType != StaticData.ROOM_TYPE_IGNORE)
 		{
-			if(roomType == StaticData.ROOM_TYPE_IGNORE)
-			{
-				if(enterDate == null)
-				{
-					if(orderDate ==  null)
-						crs = execSQL("select * from order_data where info = ?",info);
-					else
-						crs = execSQL("select * from order_data where info = ? and date(orderTime) = date(?,'localtime')",info,orderDate);
-				}
-				else
-				{
-					if(orderDate == null)
-						crs = execSQL("select * from order_data where info = ? and date(enterDate) == date(?,'localtime')",info,enterDate);
-					else
-						crs = execSQL("select * from order_data where info = ? and date(enterDate) == date(?,'localtime') and date(orderTime) = date(?,'localtime')",info,enterDate,orderDate);
-				}
-				
-			}
-			else
-			{
-					if(enterDate == null)
-					{
-						if(orderDate ==  null)
-							crs = execSQL("select * from order_data where info = ? and roomType = ?",info,roomType);
-						else
-							crs = execSQL("select * from order_data where info = ? and roomType = ? and date(orderTime) = date(?,'localtime')",info,roomType,orderDate);
-					}
-					else
-					{
-						if(orderDate == null)
-							crs = execSQL("select * from order_data where info = ? and roomType = ? and date(enterDate) == date(?,'localtime')",info,roomType,enterDate);
-						else
-							crs = execSQL("select * from order_data where info = ? and roomType = ? and date(enterDate) == date(?,'localtime') and date(orderTime) = date(?,'localtime')",info,roomType,enterDate,orderDate);
-					}
-					
-			}
+			sql.append(" and  roomType = ? ");
+			list.add(roomType);
 		}
+		if (Common.notJustEmptyChar(enterDate))
+		{
+			sql.append(" and enterDate == date(?,'localtime') ");
+			list.add(enterDate);
+		}
+		if (Common.notJustEmptyChar(orderDate))
+		{
 
-		List<Order> list = new ArrayList<Order>();
+			sql.append(" and date(orderTime) = date(?,'localtime') ");
+			list.add(orderDate);
+		}
+		
+		CachedRowSet crs = execSQLArrayParameter(sql.toString(),list.toArray());
+		List<Order> result = new ArrayList<Order>();
 		try
 		{
 			while (crs.next())
 			{
-				list.add(new Order(crs.getInt(1), // id
+				result.add(new Order(crs.getInt(1), // id
 						crs.getString(2), // name
 						crs.getString(3), // phone_number
 						crs.getString(4), // description
@@ -874,7 +768,7 @@ public class DataAccessFromSqlite extends DataAccess
 						crs.getInt(11),	//info
 						crs.getString(12)));//outDate
 			}
-			return list;
+			return result;
 		}
 		catch (Exception e)
 		{
@@ -970,61 +864,33 @@ public class DataAccessFromSqlite extends DataAccess
 			throws MyException
 	{
 		
-		CachedRowSet crs = null;
-		if(type == StaticData.ROOM_TYPE_IGNORE)
+		
+		ArrayList<Object> list = new ArrayList<Object>();
+		StringBuffer sql = new StringBuffer("select count(*) from room as r ,check_in as c where   r.cId = c.id  ");
+		
+//		crs = execSQL("select count(*) from room as r ,check_in as c where  r.type = ? and r.cId = c.id and "
+//				+ "date(c.[enterTime]) = date(?,'localtime') and c.[outTime] = date(?,'localtime')",type,enterDate,outDate);
+		
+		if (Common.notJustEmptyChar(enterDate))
 		{
-			if(enterDate == null)
-			{
-				if(outDate == null)
-				{
-					crs = execSQL("select count(*) from room as r ,check_in as c where   r.cId = c.id");
-				}
-				else
-				{
-					crs = execSQL("select count(*) from room as r ,check_in as c where   r.cId = c.id and c.[outTime] = date(?,'localtime')",outDate);
-					
-				}
-			}
-			else
-			{
-				if(outDate == null)
-				{
-					crs = execSQL("select count(*) from room as r ,check_in as c where   r.cId = c.id and date(c.[enterTime]) = date(?,'localtime')",enterDate);
-				}
-				else
-				{
-					crs = execSQL("select count(*) from room as r ,check_in as c where   r.cId = c.id and date(c.[enterTime]) = date(?,'localtime') and c.[outTime] = date(?,'localtime')",enterDate,outDate);
-					
-				}
-			}
+			list.add(enterDate);
+			sql.append(" and date(c.[enterTime]) = date(?,'localtime') ");
+
 		}
-		else
+		if (Common.notJustEmptyChar(outDate))
 		{
-			if(enterDate == null)
-			{
-				if(outDate == null)
-				{
-					crs = execSQL("select count(*) from room as r ,check_in as c where  r.type = ? and r.cId = c.id ",type);
-				}
-				else
-				{
-					crs = execSQL("select count(*) from room as r ,check_in as c where  r.type = ? and r.cId = c.id and c.[outTime] = date(?,'localtime')",type,outDate);
-					
-				}
-			}
-			else
-			{
-				if(outDate == null)
-				{
-					crs = execSQL("select count(*) from room as r ,check_in as c where  r.type = ? and r.cId = c.id and date(c.[enterTime]) = date(?,'localtime')",type,enterDate);
-				}
-				else
-				{
-					crs = execSQL("select count(*) from room as r ,check_in as c where  r.type = ? and r.cId = c.id and date(c.[enterTime]) = date(?,'localtime') and c.[outTime] = date(?,'localtime')",type,enterDate,outDate);
-					
-				}
-			}
+			sql.append(" and c.[outTime] = date(?,'localtime') ");
+			list.add(outDate);
 		}
+		if (type != StaticData.ROOM_TYPE_IGNORE)
+		{
+
+			sql.append(" and r.type = ? ");
+			list.add(type);
+		}
+		
+		CachedRowSet crs = execSQLArrayParameter(sql.toString(),list.toArray());
+		
 		try
 		{
 			crs.next();
@@ -1040,67 +906,38 @@ public class DataAccessFromSqlite extends DataAccess
 	public List<RoomAndCheckIn> getFilteredCheckedRoom(int type, String enterDate, String outDate)
 			throws MyException
 	{
-		CachedRowSet crs = null;
-		if(type == StaticData.ROOM_TYPE_IGNORE)
+		ArrayList<Object> list = new ArrayList<Object>();
+		StringBuffer sql = new StringBuffer("select * from room as r ,check_in as c where   r.cId = c.id  ");
+		
+//		crs = execSQL("select count(*) from room as r ,check_in as c where  r.type = ? and r.cId = c.id and "
+//				+ "date(c.[enterTime]) = date(?,'localtime') and c.[outTime] = date(?,'localtime')",type,enterDate,outDate);
+		
+		if (Common.notJustEmptyChar(enterDate))
 		{
-			if(enterDate == null)
-			{
-				if(outDate == null)
-				{
-					crs = execSQL("select * from room as r ,check_in as c where   r.cId = c.id");
-				}
-				else
-				{
-					crs = execSQL("select * from room as r ,check_in as c where   r.cId = c.id and c.[outTime] = date(?,'localtime')",outDate);
-					
-				}
-			}
-			else
-			{
-				if(outDate == null)
-				{
-					crs = execSQL("select * from room as r ,check_in as c where   r.cId = c.id and date(c.[enterTime]) = date(?,'localtime')",enterDate);
-				}
-				else
-				{
-					crs = execSQL("select * from room as r ,check_in as c where   r.cId = c.id and date(c.[enterTime]) = date(?,'localtime') and c.[outTime] = date(?,'localtime')",enterDate,outDate);
-					
-				}
-			}
+			list.add(enterDate);
+			sql.append(" and date(c.[enterTime]) = date(?,'localtime') ");
+
 		}
-		else
+		if (Common.notJustEmptyChar(outDate))
 		{
-			if(enterDate == null)
-			{
-				if(outDate == null)
-				{
-					crs = execSQL("select * from room as r ,check_in as c where  r.type = ? and r.cId = c.id ",type);
-				}
-				else
-				{
-					crs = execSQL("select * from room as r ,check_in as c where  r.type = ? and r.cId = c.id and c.[outTime] = date(?,'localtime')",type,outDate);
-					
-				}
-			}
-			else
-			{
-				if(outDate == null)
-				{
-					crs = execSQL("select * from room as r ,check_in as c where  r.type = ? and r.cId = c.id and date(c.[enterTime]) = date(?,'localtime')",type,enterDate);
-				}
-				else
-				{
-					crs = execSQL("select * from room as r ,check_in as c where  r.type = ? and r.cId = c.id and date(c.[enterTime]) = date(?,'localtime') and c.[outTime] = date(?,'localtime')",type,enterDate,outDate);
-					
-				}
-			}
+			sql.append(" and c.[outTime] = date(?,'localtime') ");
+			list.add(outDate);
 		}
-		List<RoomAndCheckIn> list = new ArrayList<RoomAndCheckIn>();
+		if (type != StaticData.ROOM_TYPE_IGNORE)
+		{
+
+			sql.append(" and r.type = ? ");
+			list.add(type);
+		}
+		
+		CachedRowSet crs = execSQLArrayParameter(sql.toString(),list.toArray());
+		
+		List<RoomAndCheckIn> result = new ArrayList<RoomAndCheckIn>();
 		try
 		{
 			while (crs.next())
 			{
-				list.add(new RoomAndCheckIn(
+				result.add(new RoomAndCheckIn(
 						new Room(
 								crs.getInt(1), // id
 								crs.getInt(2), // cid
@@ -1123,7 +960,7 @@ public class DataAccessFromSqlite extends DataAccess
 								crs.getBoolean(18))
 						));
 			}	
-			return list;
+			return result;
 		}
 		catch (SQLException e)
 		{
@@ -1384,138 +1221,48 @@ public class DataAccessFromSqlite extends DataAccess
 	public List<Account> getAccountByFilter(int cId, int type, int isConsume,
 			String beginDate,String endDate) throws MyException
 	{
-		CachedRowSet crs = null;
 		
 //		select * from account where cId = 87 and type = 1 and isConsume = 0 
 //		and date(genTime) >= date('2013-04-12')  and date(genTime) <= date('2013-04-13')
 		
-		if(cId == -1)
-			if(type == Account.PAY_IGNORE)
-				if(isConsume == -1)
-					if(beginDate == null)
-						if(endDate == null)
-							crs = execSQL("select * from account");
-						else
-							crs = execSQL("select * from account where date(genTime) <= date(?,'localtime')",endDate);
-							
-					else
-						if(endDate == null)
-							crs = execSQL("select * from account where date(genTime) >= date(?,'localtime') ",beginDate);
-						else
-							crs = execSQL("select * from account where date(genTime) >= date(?,'localtime') and date(genTime) <= date(?,'localtime')",beginDate,endDate);
-						
-				else
-					
-					if(beginDate == null)
-						if(endDate == null)
-							crs = execSQL("select * from account where isConsume = ?",isConsume);
-						else
-							crs = execSQL("select * from account where isConsume = ? and date(genTime) <= date(?,'localtime')",isConsume,endDate);
-							
-					else
-						if(endDate == null)
-							crs = execSQL("select * from account where isConsume = ? and date(genTime) >= date(?,'localtime') ",isConsume,beginDate);
-						else
-							crs = execSQL("select * from account where isConsume = ? and date(genTime) >= date(?,'localtime') and date(genTime) <= date(?,'localtime')",isConsume,beginDate,endDate);
-						
-					
-			else
-				if(isConsume == -1)
-					if(beginDate == null)
-						
-						if(endDate == null)
-							crs = execSQL("select * from account where type = ?",type);
-						else
-							crs = execSQL("select * from account where type = ? and date(genTime) <= date(?,'localtime')",type,endDate);
-							
-					else
-						if(endDate == null)
-							crs = execSQL("select * from account where type = ? and date(genTime) >= date(?,'localtime') ",type,beginDate);
-						else
-							crs = execSQL("select * from account where type = ? and date(genTime) >= date(?,'localtime') and date(genTime) <= date(?,'localtime')",type,beginDate,endDate);
-						
-				else
-					
-					if(beginDate == null)
-						
-						if(endDate == null)
-							crs = execSQL("select * from account where type = ? and isConsume = ?",type,isConsume);
-						else
-							crs = execSQL("select * from account where type = ? and isConsume = ? and date(genTime) <= date(?,'localtime')",type,isConsume,endDate);
-							
-					else
-						if(endDate == null)
-							crs = execSQL("select * from account where type = ? and isConsume = ? and date(genTime) >= date(?,'localtime') ",type,isConsume,beginDate);
-						else
-							crs = execSQL("select * from account where type = ? and isConsume = ? and date(genTime) >= date(?,'localtime') and date(genTime) <= date(?,'localtime')",type,isConsume,beginDate,endDate);
-						
-				
-		else
-			if(type == Account.PAY_IGNORE)
-				if(isConsume == -1)
-					if(beginDate == null)
-						if(endDate == null)
-							crs = execSQL("select * from account where cId = ?",cId);
-						else
-							crs = execSQL("select * from account where cId = ? and date(genTime) <= date(?,'localtime')",cId,endDate);
-							
-					else
-						if(endDate == null)
-							crs = execSQL("select * from account where cId = ? and date(genTime) >= date(?,'localtime') ",cId,beginDate);
-						else
-							crs = execSQL("select * from account where cId = ? and date(genTime) >= date(?,'localtime') and date(genTime) <= date(?,'localtime')",cId,beginDate,endDate);
-						
-				else
-					
-					if(beginDate == null)
-						if(endDate == null)
-							crs = execSQL("select * from account where cId = ? and isConsume = ?",cId,isConsume);
-						else
-							crs = execSQL("select * from account where cId = ? and isConsume = ? and date(genTime) <= date(?,'localtime')",cId,isConsume,endDate);
-							
-					else
-						if(endDate == null)
-							crs = execSQL("select * from account where cId = ? and isConsume = ? and date(genTime) >= date(?,'localtime') ",cId,isConsume,beginDate);
-						else
-							crs = execSQL("select * from account where cId = ? and isConsume = ? and date(genTime) >= date(?,'localtime') and date(genTime) <= date(?,'localtime')",cId,isConsume,beginDate,endDate);
-						
-			else
-				if(isConsume == -1)
-					if(beginDate == null)
-						
-						if(endDate == null)
-							crs = execSQL("select * from account where cId = ? and type = ?",cId,type);
-						else
-							crs = execSQL("select * from account where cId = ? and type = ? and date(genTime) <= date(?,'localtime')",cId,type,endDate);
-							
-					else
-						if(endDate == null)
-							crs = execSQL("select * from account where cId = ? and type = ? and date(genTime) >= date(?,'localtime') ",cId,type,beginDate);
-						else
-							crs = execSQL("select * from account where cId = ? and type = ? and date(genTime) >= date(?,'localtime') and date(genTime) <= date(?,'localtime')",cId,type,beginDate,endDate);
-						
-				else
-					
-					if(beginDate == null)
-						
-						if(endDate == null)
-							crs = execSQL("select * from account where cId = ? and type = ? and isConsume = ?",cId,type,isConsume);
-						else
-							crs = execSQL("select * from account where cId = ? and type = ? and isConsume = ? and date(genTime) <= date(?,'localtime')",cId,type,isConsume,endDate);
-							
-					else
-						if(endDate == null)
-							crs = execSQL("select * from account where cId = ? and type = ? and isConsume = ? and date(genTime) >= date(?,'localtime') ",cId,type,isConsume,beginDate);
-						else
-							crs = execSQL("select * from account where cId = ? and type = ? and isConsume = ? and date(genTime) >= date(?,'localtime') and date(genTime) <= date(?,'localtime')",cId,type,isConsume,beginDate,endDate);
-						
+		ArrayList<Object> list = new ArrayList<Object>();
+		StringBuffer sql = new StringBuffer("select * from account where 1 = 1 ");
+		if (cId != -1)
+		{
+			list.add(cId);
+			sql.append(" and cId = ? ");
+		}
+		if (type != Account.PAY_IGNORE)
+		{
+			sql.append(" and type = ? ");
+			list.add(type);
+		}
+		if (isConsume != -1)
+		{
+			sql.append(" and isConsume = ? ");
+			list.add(isConsume);
+		}
+		if (Common.notJustEmptyChar(beginDate))
+		{
+
+			sql.append(" and date(genTime) >= date(?,'localtime') ");
+			list.add(beginDate);
+		}
+		if (Common.notJustEmptyChar(endDate))
+		{
+
+			sql.append(" and date(genTime) <= date(?,'localtime') ");
+			list.add(endDate);
+		}
 		
-		List<Account> list = new ArrayList<Account>();
+		CachedRowSet crs = execSQLArrayParameter(sql.toString(),list.toArray());
+		
+		List<Account> result = new ArrayList<Account>();
 		try
 		{
 			while (crs.next())
 			{
-				list.add(
+				result.add(
 						new Account(
 								crs.getInt(1),		//rid
 								crs.getInt(2),		//cid
@@ -1527,7 +1274,7 @@ public class DataAccessFromSqlite extends DataAccess
 								crs.getInt(8)		//id
 								));
 			}
-			return list;
+			return result;
 		}
 		catch (Exception e)
 		{
@@ -1539,131 +1286,41 @@ public class DataAccessFromSqlite extends DataAccess
 	public double sumAccountByFilter(int cId, int type, int isConsume,
 			String beginDate, String endDate) throws MyException
 	{
-		CachedRowSet crs = null;
 		
 //		select * from account where cId = 87 and type = 1 and isConsume = 0 
 //		and date(genTime) >= date('2013-04-12')  and date(genTime) <= date('2013-04-13')
 		
-		if(cId == -1)
-			if(type == Account.PAY_IGNORE)
-				if(isConsume == -1)
-					if(beginDate == null)
-						if(endDate == null)
-							crs = execSQL("select sum(account.[balance]) from account");
-						else
-							crs = execSQL("select sum(account.[balance]) from account where date(genTime) <= date(?,'localtime')",endDate);
-							
-					else
-						if(endDate == null)
-							crs = execSQL("select sum(account.[balance]) from account where date(genTime) >= date(?,'localtime') ",beginDate);
-						else
-							crs = execSQL("select sum(account.[balance]) from account where date(genTime) >= date(?,'localtime') and date(genTime) <= date(?,'localtime')",beginDate,endDate);
-						
-				else
-					
-					if(beginDate == null)
-						if(endDate == null)
-							crs = execSQL("select sum(account.[balance]) from account where isConsume = ?",isConsume);
-						else
-							crs = execSQL("select sum(account.[balance]) from account where isConsume = ? and date(genTime) <= date(?,'localtime')",isConsume,endDate);
-							
-					else
-						if(endDate == null)
-							crs = execSQL("select sum(account.[balance]) from account where isConsume = ? and date(genTime) >= date(?,'localtime') ",isConsume,beginDate);
-						else
-							crs = execSQL("select sum(account.[balance]) from account where isConsume = ? and date(genTime) >= date(?,'localtime') and date(genTime) <= date(?,'localtime')",isConsume,beginDate,endDate);
-						
-					
-			else
-				if(isConsume == -1)
-					if(beginDate == null)
-						
-						if(endDate == null)
-							crs = execSQL("select sum(account.[balance]) from account where type = ?",type);
-						else
-							crs = execSQL("select sum(account.[balance]) from account where type = ? and date(genTime) <= date(?,'localtime')",type,endDate);
-							
-					else
-						if(endDate == null)
-							crs = execSQL("select sum(account.[balance]) from account where type = ? and date(genTime) >= date(?,'localtime') ",type,beginDate);
-						else
-							crs = execSQL("select sum(account.[balance]) from account where type = ? and date(genTime) >= date(?,'localtime') and date(genTime) <= date(?,'localtime')",type,beginDate,endDate);
-						
-				else
-					
-					if(beginDate == null)
-						
-						if(endDate == null)
-							crs = execSQL("select sum(account.[balance]) from account where type = ? and isConsume = ?",type,isConsume);
-						else
-							crs = execSQL("select sum(account.[balance]) from account where type = ? and isConsume = ? and date(genTime) <= date(?,'localtime')",type,isConsume,endDate);
-							
-					else
-						if(endDate == null)
-							crs = execSQL("select sum(account.[balance]) from account where type = ? and isConsume = ? and date(genTime) >= date(?,'localtime') ",type,isConsume,beginDate);
-						else
-							crs = execSQL("select sum(account.[balance]) from account where type = ? and isConsume = ? and date(genTime) >= date(?,'localtime') and date(genTime) <= date(?,'localtime')",type,isConsume,beginDate,endDate);
-						
-				
-		else
-			if(type == Account.PAY_IGNORE)
-				if(isConsume == -1)
-					if(beginDate == null)
-						if(endDate == null)
-							crs = execSQL("select sum(account.[balance]) from account where cId = ?",cId);
-						else
-							crs = execSQL("select sum(account.[balance]) from account where cId = ? and date(genTime) <= date(?,'localtime')",cId,endDate);
-							
-					else
-						if(endDate == null)
-							crs = execSQL("select sum(account.[balance]) from account where cId = ? and date(genTime) >= date(?,'localtime') ",cId,beginDate);
-						else
-							crs = execSQL("select sum(account.[balance]) from account where cId = ? and date(genTime) >= date(?,'localtime') and date(genTime) <= date(?,'localtime')",cId,beginDate,endDate);
-						
-				else
-					
-					if(beginDate == null)
-						if(endDate == null)
-							crs = execSQL("select sum(account.[balance]) from account where cId = ? and isConsume = ?",cId,isConsume);
-						else
-							crs = execSQL("select sum(account.[balance]) from account where cId = ? and isConsume = ? and date(genTime) <= date(?,'localtime')",cId,isConsume,endDate);
-							
-					else
-						if(endDate == null)
-							crs = execSQL("select sum(account.[balance]) from account where cId = ? and isConsume = ? and date(genTime) >= date(?,'localtime') ",cId,isConsume,beginDate);
-						else
-							crs = execSQL("select sum(account.[balance]) from account where cId = ? and isConsume = ? and date(genTime) >= date(?,'localtime') and date(genTime) <= date(?,'localtime')",cId,isConsume,beginDate,endDate);
-						
-			else
-				if(isConsume == -1)
-					if(beginDate == null)
-						
-						if(endDate == null)
-							crs = execSQL("select sum(account.[balance]) from account where cId = ? and type = ?",cId,type);
-						else
-							crs = execSQL("select sum(account.[balance]) from account where cId = ? and type = ? and date(genTime) <= date(?,'localtime')",cId,type,endDate);
-							
-					else
-						if(endDate == null)
-							crs = execSQL("select sum(account.[balance]) from account where cId = ? and type = ? and date(genTime) >= date(?,'localtime') ",cId,type,beginDate);
-						else
-							crs = execSQL("select sum(account.[balance]) from account where cId = ? and type = ? and date(genTime) >= date(?,'localtime') and date(genTime) <= date(?,'localtime')",cId,type,beginDate,endDate);
-						
-				else
-					
-					if(beginDate == null)
-						
-						if(endDate == null)
-							crs = execSQL("select sum(account.[balance]) from account where cId = ? and type = ? and isConsume = ?",cId,type,isConsume);
-						else
-							crs = execSQL("select sum(account.[balance]) from account where cId = ? and type = ? and isConsume = ? and date(genTime) <= date(?,'localtime')",cId,type,isConsume,endDate);
-							
-					else
-						if(endDate == null)
-							crs = execSQL("select sum(account.[balance]) from account where cId = ? and type = ? and isConsume = ? and date(genTime) >= date(?,'localtime') ",cId,type,isConsume,beginDate);
-						else
-							crs = execSQL("select sum(account.[balance]) from account where cId = ? and type = ? and isConsume = ? and date(genTime) >= date(?,'localtime') and date(genTime) <= date(?,'localtime')",cId,type,isConsume,beginDate,endDate);
-						
+		ArrayList<Object> list = new ArrayList<Object>();
+		StringBuffer sql = new StringBuffer("select sum(account.[balance]) from account where 1 = 1 ");
+		if (cId != -1)
+		{
+			list.add(cId);
+			sql.append(" and cId = ? ");
+		}
+		if (type != Account.PAY_IGNORE)
+		{
+			sql.append(" and type = ? ");
+			list.add(type);
+		}
+		if (isConsume != -1)
+		{
+			sql.append(" and isConsume = ? ");
+			list.add(isConsume);
+		}
+		if (Common.notJustEmptyChar(beginDate))
+		{
+
+			sql.append(" and date(genTime) >= date(?,'localtime') ");
+			list.add(beginDate);
+		}
+		if (Common.notJustEmptyChar(endDate))
+		{
+
+			sql.append(" and date(genTime) <= date(?,'localtime') ");
+			list.add(endDate);
+		}
+		
+		CachedRowSet crs = execSQLArrayParameter(sql.toString(),list.toArray());
 		
 		try
 		{
@@ -1711,72 +1368,71 @@ public class DataAccessFromSqlite extends DataAccess
 
 	@Override
 	public List<CheckInInfo> getCheckInByFilter(String enterDateBegin,
-			String enterDateEnd, String outDateBegin, String outDateEnd)
+			String enterDateEnd, String outDateBegin, String outDateEnd, String name, String remark, String roomId, String phone)
 			throws MyException
 	{
 		
 //		select * from check_in where enterTime >= date('2013-04-12') and enterTime <= date('2013-05-05') and
 //		outTime >= date('2013-04-12') and outTime <= date('2013-05-05')
 		
-		CachedRowSet crs;
-		
-		if(enterDateBegin == null)
-			if(enterDateEnd == null)
-				if(outDateBegin == null)
-					if(outDateEnd == null)
-						crs = execSQL("select * from check_in");
-					else
-						crs = execSQL("select * from check_in where date(outTime) <= date(?,'localtime')",outDateEnd);
-				else
-					if(outDateEnd == null)
-						crs = execSQL("select * from check_in where date(outTime) >= date(?,'localtime')",outDateBegin);
-					else
-						crs = execSQL("select * from check_in where date(outTime) >= date(?,'localtime') and date(outTime) <= date(?,'localtime')",outDateBegin,outDateEnd);
-			else
-				if(outDateBegin == null)
-					if(outDateEnd == null)
-						crs = execSQL("select * from check_in where date(enterTime) <= date(?,'localtime')",enterDateEnd);
-					else
-						crs = execSQL("select * from check_in where date(enterTime) <= date(?,'localtime') and date(outTime) <= date(?,'localtime')",enterDateEnd,outDateEnd);
-				else
-					if(outDateEnd == null)
-						crs = execSQL("select * from check_in where date(enterTime) <= date(?,'localtime') and date(outTime) >= date(?,'localtime')",enterDateEnd,outDateBegin);
-					else
-						crs = execSQL("select * from check_in where date(enterTime) <= date(?,'localtime') and date(outTime) >= date(?,'localtime') and date(outTime) <= date(?,'localtime')",enterDateEnd,outDateBegin,outDateEnd);
-		else
-			if(enterDateEnd == null)
-				if(outDateBegin == null)
-					if(outDateEnd == null)
-						crs = execSQL("select * from check_in where date(enterTime) >= date(?,'localtime')",enterDateBegin);
-					else
-						crs = execSQL("select * from check_in where date(enterTime) >= date(?,'localtime') and date(outTime) <= date(?,'localtime')",enterDateBegin,outDateEnd);
-				else
-					if(outDateEnd == null)
-						crs = execSQL("select * from check_in where date(enterTime) >= date(?,'localtime') and date(outTime) >= date(?,'localtime')",enterDateBegin,outDateBegin);
-					else
-						crs = execSQL("select * from check_in where date(enterTime) >= date(?,'localtime') and date(outTime) >= date(?,'localtime') and date(outTime) <= date(?,'localtime')",enterDateBegin,outDateBegin,outDateEnd);
-			else
-				if(outDateBegin == null)
-					if(outDateEnd == null){
-						System.out.println("enter");
-						crs = execSQL("select * from check_in where date(enterTime) >= date(?,'localtime') and date(enterTime) <= date(?,'localtime')",enterDateBegin,enterDateEnd);
-					}
-					else
-						crs = execSQL("select * from check_in where date(enterTime) >= date(?,'localtime') and date(enterTime) <= date(?,'localtime') and date(outTime) <= date(?,'localtime')",enterDateBegin,enterDateEnd,outDateEnd);
-				else
-					if(outDateEnd == null)
-						crs = execSQL("select * from check_in where date(enterTime) >= date(?,'localtime') and date(enterTime) <= date(?,'localtime') and date(outTime) >= date(?,'localtime')",enterDateBegin,enterDateEnd,outDateBegin);
-					else
-						crs = execSQL("select * from check_in where date(enterTime) >= date(?,'localtime') and date(enterTime) <= date(?,'localtime') and date(outTime) >= date(?,'localtime') and date(outTime) <= date(?,'localtime')",enterDateBegin,enterDateEnd,outDateBegin,outDateEnd);
+		ArrayList<Object> list = new ArrayList<Object>();
+		StringBuffer sql = new StringBuffer("select * from check_in where 1 = 1 ");
+		if (Common.notJustEmptyChar(enterDateBegin))
+		{
+			list.add(enterDateBegin);
+			sql.append(" and date(enterTime) >= date(?,'localtime') ");
 
-				
+		}
+		if (Common.notJustEmptyChar(enterDateEnd))
+		{
+			sql.append(" and date(enterTime) <= date(?,'localtime') ");
+			list.add(enterDateEnd);
+		}
+		if (Common.notJustEmptyChar(outDateBegin))
+		{
+
+			sql.append(" and date(outTime) >= date(?,'localtime') ");
+			list.add(outDateBegin);
+		}
+		if (Common.notJustEmptyChar(outDateEnd))
+		{
+
+			sql.append(" and date(outTime) <= date(?,'localtime') ");
+			list.add(outDateEnd);
+		}
+
+		if (Common.notJustEmptyChar(name))
+		{
+			sql.append(" and name like ? ");
+			list.add("%"+name+"%");
+
+		}
+		if (Common.notJustEmptyChar(remark))
+		{
+			sql.append(" and description like ? ");
+			list.add("%"+remark+"%");
+
+		}
+		if (Common.notJustEmptyChar(roomId))
+		{
+
+			sql.append(" and rId like ? ");
+			list.add("%"+roomId+"%");
+		}
+		if (Common.notJustEmptyChar(phone))
+		{
+			sql.append(" and phoneNumber like ? ");
+			list.add("%"+phone+"%");
+
+		}
 		
-		List<CheckInInfo> list = new ArrayList<CheckInInfo>();
+		CachedRowSet crs = execSQLArrayParameter(sql.toString(),list.toArray());
+		List<CheckInInfo> result = new ArrayList<CheckInInfo>();
 		try
 		{
 			while (crs.next())
 			{
-				list.add(new CheckInInfo(crs.getInt(1), // id
+				result.add(new CheckInInfo(crs.getInt(1), // id
 						crs.getInt(2), // rid
 						crs.getInt(3), // order_id
 						crs.getString(4), // name
@@ -1789,7 +1445,7 @@ public class DataAccessFromSqlite extends DataAccess
 						crs.getDouble(11), // balance
 						crs.getBoolean(12)));// isHourRoom
 			}
-			return list;
+			return result;
 		}
 		catch (SQLException e)
 		{

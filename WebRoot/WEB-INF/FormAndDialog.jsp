@@ -82,7 +82,7 @@
 						       name="balanceType"
 						       headerKey="-1" 
 						       headerValue="选择入账类型..........."
-						       list="#{0:'银行卡',1:'现金'}"
+						       list="#{'0':'银行卡', '1':'现金','2':'网络费用','3':'积分兑换'}"
 						       required="true"
 								/>	
 							</td>
@@ -240,7 +240,7 @@
 							<s:select 
 							id ="addBalance_type_id"
 							name="type"
-					       list="#{-1:'请选择入账类型...',0:'银行卡',1:'现金'}"
+					       list="#{'-1':'--请选择--','0':'银行卡', '1':'现金','2':'网络费用','3':'积分兑换'}"
 							/>
 						</td>
 						<td><p class="warn" id="addBalance_type_warn"></p></td>

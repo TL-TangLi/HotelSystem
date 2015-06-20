@@ -33,25 +33,8 @@ $(function() {
     
     
     $( "input[type=submit],button" ).button();
-    $( "#enterDateBegin_ignore_button" ).button({
-		icons: {
-			primary: "ui-icon-close"
-		},
-		text: false
-	});
-    $( "#enterDateEnd_ignore_button" ).button({
-    	icons: {
-    		primary: "ui-icon-close"
-    	},
-    	text: false
-    });
-    $( "#outDateBegin_ignore_button" ).button({
-    	icons: {
-    		primary: "ui-icon-close"
-    	},
-    	text: false
-    });
-    $( "#outDateEnd_ignore_button" ).button({
+    
+    $( ".ignorButton" ).button({
     	icons: {
     		primary: "ui-icon-close"
     	},
@@ -78,23 +61,9 @@ $(function() {
   });
 
 
-function ignoreDate(n){
-	switch(n)
-	{
-	case 1:
-		$("#enterDateBegin_id").val("");
-		break;
-	case 2:
-		$("#enterDateEnd_id").val("");
-		break;
-	case 3:
-		$("#outDateBegin_id").val("");
-		break;
-	case 4:
-		$("#outDateEnd_id").val("");
-		break;
-	}
-	
+
+function ignoreById(id){
+	$("#"+id).val("");
 }
 
 

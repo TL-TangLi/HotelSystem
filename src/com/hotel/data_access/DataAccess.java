@@ -405,10 +405,14 @@ public abstract  class DataAccess
 	 * @param enterDateEnd
 	 * @param outDateBegin
 	 * @param outDateEnd
+	 * @param name 姓名
+	 * @param remark 备注
+	 * @param roomId 房间号
+	 * @param phone 电话号码
 	 * @return		两个时间段 过滤器 （返回指定时间段入住，指定时间段退房的入住信息）
 	 * @throws MyException
 	 */
-	public abstract List<CheckInInfo> getCheckInByFilter(String enterDateBegin,String enterDateEnd,String outDateBegin,String outDateEnd) throws MyException;
+	public abstract List<CheckInInfo> getCheckInByFilter(String enterDateBegin,String enterDateEnd,String outDateBegin,String outDateEnd, String name, String remark, String roomId, String phone) throws MyException;
 	
 	
 	

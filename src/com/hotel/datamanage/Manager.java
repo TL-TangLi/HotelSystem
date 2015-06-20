@@ -536,11 +536,11 @@ public class Manager
  		}
  	}
  	
-   	public List<CheckInInfo> getCheckInInfoByFilter(String enterDateBegin,String enterDateEnd,String outDateBegin,String outDateEnd)
+   	public List<CheckInInfo> getCheckInInfoByFilter(String enterDateBegin,String enterDateEnd,String outDateBegin,String outDateEnd, String name, String remark, String roomId, String phone)
  	{
  		try
 		{
-			return da.getCheckInByFilter(enterDateBegin, enterDateEnd, outDateBegin,outDateEnd);
+			return da.getCheckInByFilter(enterDateBegin, enterDateEnd, outDateBegin,outDateEnd, name, remark, roomId, phone);
 		}
 		catch (MyException e)
 		{

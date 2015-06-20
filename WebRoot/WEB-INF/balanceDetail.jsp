@@ -10,10 +10,10 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>房间<s:property value="roomId"/>账单</title>
-
+	<link rel="stylesheet" href="${staticRes }/jquery/pepper-grinder/jquery-ui.css" />
+	<link rel="stylesheet" href="${staticRes }/jquery/pepper-grinder/jquery-ui.min.css" />
 	<script src="../script/home.js" charset="UTF-8"></script>
 	<script src="../script/balanceDetail.js" charset="UTF-8"></script>
-
 
  <style>
 	tr.account-item{
@@ -47,7 +47,7 @@
 			<s:select 
 				id="type_id"
 		       name="type"
-		       list="#{'-1':'所有','0':'银行卡', '1':'现金'}"
+		       list="#{'-1':'所有','0':'银行卡', '1':'现金','2':'网络费用','3':'积分兑换'}"
 		       required="true"
 			/>
 			日期段：
@@ -104,7 +104,11 @@
 					  	<td><%=j %></td>
 					  	<td><s:property value="#account.rId"/></td>
 					  	<td><s:property value="#account.description"/></td>
-						<td><s:if test='#account.type == 1'>现金</s:if><s:else>银行卡</s:else></td>						  	
+						<td><s:if test='#account.type == 0'>银行卡</s:if>
+							<s:elseif test='#account.type == 1'>现金</s:elseif>
+							<s:elseif test='#account.type == 2'>网络费用</s:elseif>
+							<s:elseif test='#account.type == 3'>积分兑换</s:elseif>
+						</td>						  	
 					  	<td><s:property value="#account.balance"/></td>
 					  	<td><s:property value="#account.genTime"/></td>
 					  	<c:if test="${sessionScope.user.level <= 1}">
