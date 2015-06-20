@@ -107,7 +107,11 @@
 				 	
 		  			 <tr class="accountAndCheckIn-item ui-widget-content "  >	
 					  	<td><%=j %></td>
-						<td><s:if test='#accountAndCheckIn.account.type == 1'>现金</s:if><s:else>银行卡</s:else></td>						  	
+						<td><s:if test='#accountAndCheckIn.account.type== 0'>银行卡</s:if>
+							<s:elseif test='#accountAndCheckIn.account.type == 1'>现金</s:elseif>
+							<s:elseif test='#accountAndCheckIn.account.type == 2'>网络费用</s:elseif>
+							<s:elseif test='#accountAndCheckIn.account.type == 3'>积分兑换</s:elseif>
+						</td>										  	
 					  	<td><s:property value="#accountAndCheckIn.account.balance"/></td>
 					  	<td><s:property value="#accountAndCheckIn.account.genTime"/></td>
 					  	<td><s:property value="#accountAndCheckIn.account.description"/></td>
