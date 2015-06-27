@@ -4,6 +4,15 @@
 
 	<!-- <constant name="struts.enableJSONValidation" value="true" /> -->
 	<!-- <constant name="struts.validateOnly" value="true"/> -->
+	
+	<!-- 把它设置为开发模式，发布时要设置为false -->
+<!--     <constant name="struts.devMode" value="true" /> -->
+    <!-- 设置在class被修改时是否热加载，发布时要设置为false -->
+    <constant name="struts.convention.classes.reload" value="true"/>
+    <!-- 自动动态方法的调用，使用这个设置后可以这样调用：action!method -->
+    <constant name="struts.enable.DynamicMethodInvocation" value="true" />
+    <!-- 指定jsp文件所在的目录地址 -->
+    <constant name="struts.convention.result.path" value="/WEB-INF/view/" />
 
 	<package name="mainPackage" namespace="/main" extends="json-default">
 		
@@ -36,13 +45,13 @@
 		<action name="*RoomTypeAction" class="com.hotel.mainaction.RoomTypeAction" method="{1}">
 			<result name="query" type="json"></result>
 			<result name="add" type="dispatcher">
-				/WEB-INF/requestResult.jsp
+				/WEB-INF/view/requestResult.jsp
 			</result>
 			<result name="del" type="dispatcher">
-				/WEB-INF/requestResult.jsp
+				/WEB-INF/view/requestResult.jsp
 			</result>
 			<result name="update" type="dispatcher">
-				/WEB-INF/requestResult.jsp
+				/WEB-INF/view/requestResult.jsp
 			</result>
 		</action>
 		
@@ -54,16 +63,16 @@
 			method="{1}">
 			<result name="info" type="json"></result>
 			<result name="add" type="dispatcher">
-				/WEB-INF/requestResult.jsp
+				/WEB-INF/view/requestResult.jsp
 			</result>
 			<result name="changeRoomType" type="dispatcher">
-				/WEB-INF/requestResult.jsp
+				/WEB-INF/view/requestResult.jsp
 			</result>
 			<result name="changeState" type="dispatcher">
-				/WEB-INF/requestResult.jsp
+				/WEB-INF/view/requestResult.jsp
 			</result>
 			<result name="switchRoom" type="dispatcher">
-				/WEB-INF/requestResult.jsp
+				/WEB-INF/view/requestResult.jsp
 			</result>
 		</action>
 		
@@ -71,13 +80,13 @@
 		
 		<action name="*CheckInAction" class="com.hotel.mainaction.CheckInAction" method="{1}">
 			<result name="info" type="dispatcher">
-				/WEB-INF/requestResult.jsp
+				/WEB-INF/view/requestResult.jsp
 			</result>
 			<result name="update" type="dispatcher">
-				/WEB-INF/requestResult.jsp
+				/WEB-INF/view/requestResult.jsp
 			</result>
 			<result name="query" type="dispatcher">
-				/WEB-INF/queryCheckIn.jsp
+				/WEB-INF/view/queryCheckIn.jsp
 			</result>
 			<result name="del" type="redirectAction">
 				<param name="namespace">/main</param>
@@ -88,20 +97,20 @@
 				<param name="outDateEnd">${outDateEnd}</param>
 			</result>
 			<result name="requestContinue" type="dispatcher">
-				/WEB-INF/requestResult.jsp
+				/WEB-INF/view/requestResult.jsp
 			</result>
 		</action>
 		
 		<action name="*OrderAction" class="com.hotel.mainaction.OrderAction" method="{1}">
 			<result name="info" type="json"></result>
 			<result name="add" type="dispatcher">
-				/WEB-INF/requestResult.jsp
+				/WEB-INF/view/requestResult.jsp
 			</result>
 			<result name="query" type="dispatcher">
-				/WEB-INF/queryOrder.jsp
+				/WEB-INF/view/queryOrder.jsp
 			</result>
 			<result name="del" type="dispatcher">
-				/WEB-INF/requestResult.jsp
+				/WEB-INF/view/requestResult.jsp
 			</result>
 			<result name="delMulti" type="redirectAction">
 				<param name="enterDate">${enterDate}</param>
@@ -153,19 +162,19 @@
 				<param name="checkId">${checkId}</param>
 			</result>
 			<result name="requestBalanceDetailSuccess" type="dispatcher">
-				/WEB-INF/balanceDetail.jsp
+				/WEB-INF/view/balanceDetail.jsp
 			</result>
 			<result name="requestBalanceDetailHadCheckOutSuccess" type="dispatcher">
-				/WEB-INF/balanceDetailHadCheckOut.jsp
+				/WEB-INF/view/balanceDetailHadCheckOut.jsp
 			</result>
 			<result name="requestqueryAccountSumSuccess" type="dispatcher">
-				/WEB-INF/queryAccountSum.jsp
+				/WEB-INF/view/queryAccountSum.jsp
 			</result>
 			<result name="requestAddBalanceSuccess" type="dispatcher">
-				/WEB-INF/requestResult.jsp
+				/WEB-INF/view/requestResult.jsp
 			</result>
 			<result name="requestConsumeSuccess" type="dispatcher">
-				/WEB-INF/requestResult.jsp
+				/WEB-INF/view/requestResult.jsp
 			</result>
 			<result name="requestConsumeFailed" type="redirectAction">
 				<param name="namespace">/main</param>
@@ -198,32 +207,32 @@
 		<action name="*Action" class="com.hotel.mainaction.RequestAction"
 			method="{1}">
 			<result name="roomTrend" type="dispatcher">
-				/WEB-INF/home.jsp
+				/WEB-INF/view/home.jsp
 			</result>
 			<!-- 【今日在住、今日入住、今日应退房】统计 -->
 			<result name="todayRoomEntered" type="dispatcher">
-				/WEB-INF/requestQueryRoom.jsp
+				/WEB-INF/view/requestQueryRoom.jsp
 			</result>
 			<result name="todayRoomEmpty" type="dispatcher">
-				/WEB-INF/requestQueryEmptyRoomResult.jsp
+				/WEB-INF/view/requestQueryEmptyRoomResult.jsp
 			</result>
 			<!-- 【入住关联订单 请求订单列表】 -->
 			<result name="requestOrderForCheckInResult.jsp" type="dispatcher">
-				/WEB-INF/requestOrderForCheckInResult.jsp
+				/WEB-INF/view/requestOrderForCheckInResult.jsp
 			</result>
 			<!-- 【今日订单待住、新增】统计 -->
 			<result name="requestOrderResult.jsp" type="dispatcher">
-				/WEB-INF/requestOrderResult.jsp
+				/WEB-INF/view/requestOrderResult.jsp
 			</result>
 			<!-- 【房间剩余统计】统计 -->
 			<result name="requestTodayRoomStatisticsSuccess" type="dispatcher">
-				/WEB-INF/requestTodayRoomStatistics.jsp
+				/WEB-INF/view/requestTodayRoomStatistics.jsp
 			</result>
 			<result name="requestRoomStatisticsSuccess" type="dispatcher">
-				/WEB-INF/queryRoomStatistics.jsp
+				/WEB-INF/view/queryRoomStatistics.jsp
 			</result>
 			<result name="requestLoginOffSuccess" type="dispatcher">
-				<param name="location">/WEB-INF/home.jsp</param>
+				<param name="location">/WEB-INF/view/home.jsp</param>
 				<param name="parse">false</param>
 			</result>
 		</action>

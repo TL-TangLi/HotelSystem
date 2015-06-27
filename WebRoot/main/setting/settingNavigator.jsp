@@ -14,7 +14,7 @@
 	-->
 
 	<style>
-		body {background-image: url("../../image/eg_bg_06.gif"); }
+		body {background-image: url("${dynamicRes}/image/eg_bg_06.gif"); }
 		.header {color: #888888;font: bold;font-size:18pt; padding: 10pt;font-weight: bold;}
 		li {list-style-type: none;text-align: left; padding-left: 5pt;padding-top: 8pt;margin: 3pt;font-weight: lighter;}
 		li a{font-size: 15pt;color: #333333;font:bold;font: cursive;padding: 4pt; text-decoration: none;}

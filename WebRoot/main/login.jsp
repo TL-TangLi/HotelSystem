@@ -6,7 +6,7 @@
 <title>管理员登录</title>
 <link rel="stylesheet" href="${dynamicRes}/css/login.css">
 
-<link rel="Shortcut Icon" href="../ico/login.ico" />
+<link rel="Shortcut Icon" href="${dynamicRes}/ico/login.ico" />
 
 <script>
 	$(function() {

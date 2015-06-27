@@ -17,7 +17,7 @@
 	<!--
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	-->
-	<link rel="Shortcut Icon" href="../../ico/setting.ico"/>
+	<link rel="Shortcut Icon" href="../${dynamicRes}/ico/setting.ico"/>
 	
 	<script type="text/javascript">
 		///将会作为各个子页面的 共用对象。

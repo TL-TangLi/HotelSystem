@@ -13,8 +13,8 @@
 
 	<link rel="stylesheet" href="${staticRes }/jquery/pepper-grinder/jquery-ui.css" />
 	<link rel="stylesheet" href="${staticRes }/jquery/pepper-grinder/jquery-ui.min.css" />
-	<script src="../script/home.js" charset="UTF-8"></script>
-	<script src="../script/queryAccountSum.js" charset="UTF-8"></script>
+	<script src="${dynamicRes}/js/home.js" charset="UTF-8"></script>
+	<script src="${dynamicRes}/js/queryAccountSum.js" charset="UTF-8"></script>
 
 
  <style>

@@ -9,15 +9,11 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>账单详情</title>
-
+<title>房间<s:property value="roomId"/>账单</title>
 	<link rel="stylesheet" href="${staticRes }/jquery/pepper-grinder/jquery-ui.css" />
 	<link rel="stylesheet" href="${staticRes }/jquery/pepper-grinder/jquery-ui.min.css" />
-	
-	
-	<script src="../script/home.js" charset="UTF-8"></script>
-	<script src="../script/balanceDetailHadCheckOut.js" charset="UTF-8"></script>
-
+	<script src="${dynamicRes}/js/home.js" charset="UTF-8"></script>
+	<script src="${dynamicRes}/js/balanceDetail.js" charset="UTF-8"></script>
 
  <style>
 	tr.account-item{
@@ -26,7 +22,7 @@
 	tr.over{
 	    background:#999999;
 	}
-	td{text-align: center;}
+	td{color: black;}
 	div.serchDiv{ font-size: 14px;color:#666666; font-family:cursive;}
 	div.description{ font-size:14;}
 	p{color:#666666; font-family:cursive; }
@@ -37,20 +33,16 @@
 </head>
   
   <body >
-	  <h1 align="center" class="ui-widget-header title">已退房账单详情</h1>
+	  <h1 align="center" class="ui-widget-header title">房间<s:property value="roomId"/>账单</h1>
 	  
 	  <div id ="description_div" class="ui-widget-header description" >
-	  	<p><s:property value="cif.enterTime"/>入住，<s:property value="cif.outTime"/>退房，
-	  	所住房间：<s:property value="cif.rId"/>，入住人数：<s:property value="cif.numberPeople"/>，联系人：<s:property value="cif.name"/>
-	  	，联系电话：<s:property value="cif.phoneNumber"/>，入住说明：<s:property value="cif.description"/>
-	  	<br> 房费：<s:property value="cif.balance"/>，消费总额：<s:property value="cif.allConsume"/>，总入账：<s:property value="cif.allAddBalance"/></p>
+	  	
 	  </div>
-	  
-	  
 	  
 	  <div  class="ui-widget-header serchDiv" >
 		 <s:form theme="simple">
-			<s:textfield id ="checkId_id" name = "checkId"  cssStyle="display:none"></s:textfield>			
+			
+			<s:textfield id ="roomId_id" name = "roomId"  cssStyle="display:none"></s:textfield>
 			&ensp;&ensp;&ensp;类型：
 			<s:select 
 				id="type_id"
@@ -67,13 +59,17 @@
 			
 			查找:<s:submit  type="button" id="queryBalance_submit" ></s:submit>&nbsp;&nbsp;&nbsp;
 			
+			增加入账<button id="addBalance_button" type = "button" onclick="openAddBalance()"></button>&nbsp;&nbsp;&nbsp;
+			增加消费<button id="addConsume" type = "button" onclick="openConsume()"></button>&nbsp;&nbsp;&nbsp;
+			结账<button id="settleAccount" type = "button" onclick="openAddBalance(true)"></button>
 			<c:if test="${sessionScope.user.level <= -1}">
 				删除所选<button id="delAccounts" type = "button" onclick="chkbox_del()"></button>
 			</c:if>
-			
+			<c:if test="${sessionScope.user.level <= 1}">
+				房费重置<button id="resetCharge" type = "button" onclick="resetRoomCharge()"></button>
+			</c:if>
 		 </s:form> 
 	  </div>
-	  
 	  
 	  
 	  
@@ -82,10 +78,10 @@
 	  	String type;
 	   %>
 	   
-	  	<!-- //////////////////////////////////////////////入账统计/////////////////////////////////////////////////// -->
+	   
+	    <!-- /////////////////////////////////////////////入账统计/////////////////////////////////////////////////// -->
 	  <div  class="ui-widget-content">
 		  <div class="accordion">
-		  
 		  
 		  	<h3 class="ui-widget-header">入账<s:property value='addBalanceSum'/></h3>
 		  	<div>
@@ -115,7 +111,6 @@
 						</td>						  	
 					  	<td><s:property value="#account.balance"/></td>
 					  	<td><s:property value="#account.genTime"/></td>
-					  	
 					  	<c:if test="${sessionScope.user.level <= 1}">
 						  	<td class="del_tr">
 						  		<input  type="checkBox" name="delIds" value=<s:property value="#account.id"></s:property>></input>
@@ -128,15 +123,17 @@
 		  	</div>
 			
 			
+			
 		</div>
 	</div>
-	
-	
-	 <!-- //////////////////////////////////////////////房费统计/////////////////////////////////////////////////// -->
+		
+		
+	  <!-- /////////////////////////////////////////////房费统计/////////////////////////////////////////////////// -->
 	  <div  class="ui-widget-content">
 		  <div class="accordion">
-			
-			 <% j=0;%>
+		  	
+		  	
+		  	<% j=0;%>
 		  	<h3 class="ui-widget-header">房费<s:property value='roomChargeSum'/></h3>
 		  	<div>
 		  		<table class= "ui-widget-content">
@@ -146,9 +143,6 @@
 				  		<th>房费类型</th>
 				  		<th>房费产生日期</th>
 				  		<th>房费</th>
-				  		<c:if test="${sessionScope.user.level <= 1}">
-					  		<th>选择</th>
-						</c:if>
 		  			</tr>	
 				 	<s:iterator var="account" value="listRoomCharge">
 			  		<%j++; %>
@@ -170,27 +164,20 @@
 					  	<td><s:property value="#account.date"/></td>
 					  	<td><s:property value="#account.charge"/></td>
 					  	
-					  	
-					  	<c:if test="${sessionScope.user.level <= 1}">
-						  	<td class="del_tr">
-						  		<input  type="checkBox" name="delChargeIds" value=<s:property value="#account.id"></s:property>></input>
-					  		</td>
-						</c:if>
-					  	
 			  		</tr>
 			   		</s:iterator>
 			  	</table>
 		  	</div>
-			
-		</div>
-	</div>
-	
-	
-	 <!-- //////////////////////////////////////////////额外消费/////////////////////////////////////////////////// -->
+		  	
+		  </div>
+	  </div>	
+		
+		
+		<!-- //////////////////////////////////////////////额外消费/////////////////////////////////////////////////// -->
 	  <div  class="ui-widget-content">
 		  <div class="accordion">
 		  
-			<% j=0;%>
+		  	<% j=0;%>
 		  	<h3 class="ui-widget-header">额外消费<s:property value='consumeSum'/></h3>
 		  	<div>
 		  		<table class= "ui-widget-content">
@@ -214,22 +201,40 @@
 					  	<td><s:property value="#account.balance"/></td>
 					  	<td><s:property value="#account.genTime"/></td>
 					  	
-					  	
 					  	<c:if test="${sessionScope.user.level <= 1}">
 						  	<td class="del_tr">
 						  		<input  type="checkBox" name="delIds" value=<s:property value="#account.id"></s:property>></input>
 					  		</td>
 						</c:if>
+					  	
 			  		</tr>
 			   		</s:iterator>
 			  	</table>
 		  	</div>
-		  	
-		</div>
+		  
+	 	 </div>
+	  </div>
+	  
+	  
+		
+	<!-- ////////提示对话框infoDialog 会刷新//////// -->
+	<div id="infoDialog" style="display:none">
+		<center>
+			<s:form theme="simple" id="freshForm" action="requestBalanceDetailActionForBalance" namespace="/main" >
+				<table class= "ui-widget-content" align="center">
+					<tr><td><s:label id="info"></s:label></td></tr>			
+					<s:textfield name="roomId" cssStyle="display:none"></s:textfield>
+		    		<s:textfield name="type"  cssStyle="display:none"></s:textfield>
+		    		<s:textfield name="beginDate"  cssStyle="display:none"></s:textfield>
+		    		<s:textfield name="endDate"  cssStyle="display:none"></s:textfield>
+					<tr><td><s:submit id = "requestBalanceDetail_submit" value="确认并刷新" executeScripts="true"  ></s:submit></td></tr>
+				</table>
+			</s:form>
+		</center>
 	</div>
-		
-		
-		
+
+
+	
 
   </body>
 </html>

@@ -7,7 +7,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
-<script src="../script/home.js" charset="UTF-8"></script>
+<script src="${dynamicRes}/js/home.js" charset="UTF-8"></script>
 
  <script >
   

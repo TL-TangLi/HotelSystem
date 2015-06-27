@@ -20,12 +20,12 @@ if(user==null)
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>管理中心</title>
 
-<script src="../script/homeInitial.js" charset="UTF-8"></script>
-<script src="../script/homeMenu.js" charset="UTF-8"></script>
-<script src="../script/homeRoomTypeOperation.js" charset="UTF-8"></script>
+<script src="${dynamicRes}/js/homeInitial.js" charset="UTF-8"></script>
+<script src="${dynamicRes}/js/homeMenu.js" charset="UTF-8"></script>
+<script src="${dynamicRes}/js/homeRoomTypeOperation.js" charset="UTF-8"></script>
 
-<script src="../script/homeOrder.js" charset="UTF-8"></script>
-<script src="../script/home.js" charset="UTF-8"></script>
+<script src="${dynamicRes}/js/homeOrder.js" charset="UTF-8"></script>
+<script src="${dynamicRes}/js/home.js" charset="UTF-8"></script>
 
 <script>
 	

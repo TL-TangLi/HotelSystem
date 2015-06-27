@@ -14,11 +14,11 @@
 <!-- 	<link rel="stylesheet" href="../jquery/redmond/jquery-ui.css" /> -->
 <!-- 	<link rel="stylesheet" href="../jquery/redmond/jquery-ui.min.css" /> -->
 	
-	<script src="../script/homeOrder.js" charset="UTF-8"></script>
-	<script src="../script/home.js" charset="UTF-8"></script>
-	<script src="../script/homeMenu.js" charset="UTF-8"></script>
+	<script src="${dynamicRes}/js/homeOrder.js" charset="UTF-8"></script>
+	<script src="${dynamicRes}/js/home.js" charset="UTF-8"></script>
+	<script src="${dynamicRes}/js/homeMenu.js" charset="UTF-8"></script>
 
-	<script src="../script/queryOrder.js" charset="UTF-8"></script>
+	<script src="${dynamicRes}/js/queryOrder.js" charset="UTF-8"></script>
 
  <style>
 	tr.order-item{

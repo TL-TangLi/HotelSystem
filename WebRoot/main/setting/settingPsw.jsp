@@ -101,16 +101,16 @@
 			switch(safeLevel)
 			{
 			case 0:
-				$("#psw_level_indicator").attr("src","../../image/psw_level_none.gif");
+				$("#psw_level_indicator").attr("src","${dynamicRes}/image/psw_level_none.gif");
 				break;
 			case 1:
-				$("#psw_level_indicator").attr("src","../../image/psw_level_l.gif");
+				$("#psw_level_indicator").attr("src","${dynamicRes}/image/psw_level_l.gif");
 				break;
 			case 2:
-				$("#psw_level_indicator").attr("src","../../image/psw_level_m.gif");
+				$("#psw_level_indicator").attr("src","${dynamicRes}/image/psw_level_m.gif");
 				break;
 			case 3:
-				$("#psw_level_indicator").attr("src","../../image/psw_level_h.gif");
+				$("#psw_level_indicator").attr("src","${dynamicRes}/image/psw_level_h.gif");
 				break;
 			}
 		};
@@ -182,33 +182,33 @@
 	  	<s:form  theme="simple" action="modifyPswActionForSetting"  namespace="/main" onsubmit="javascript:return modifyPswAvalidate()">
 	  		<table align="center">
 				<tr>
-					<td><img src="../../image/drink.png"></img></td>
+					<td><img src="${dynamicRes}/image/drink.png"></img></td>
 					<td class="inputDescription">亲爱的，你可以在这里直接修改密码</td>
 				</tr>
 				<tr>
 					<td class="inputDescription"><span class="star">*</span>当前密码:</td>
 					<td><s:textfield maxlength="18" name="currentPsw" type="password" includeContext="false"  onfocus="inputFocus(1)" onblur="inputBlur(1)"></s:textfield></td>
-					<td id="td_currentPsw_id"><span class="inputAlert" style=""><img src="../../image/face.png"/>请输入旧密码</span></td>
+					<td id="td_currentPsw_id"><span class="inputAlert" style=""><img src="${dynamicRes}/image/face.png"/>请输入旧密码</span></td>
 				</tr>
 				<tr><td>&ensp;</td></tr>
 				<tr><td>&ensp;</td></tr>
 				<tr>
 					<td class="inputDescription"><span class="star">*</span>新密码:</td>
 					<td><s:textfield maxlength="18" name="newPsw" type="password"  onfocus="inputFocus(2)" onblur="inputBlur(2)" onkeyup="showSafeLevel()"></s:textfield></td>
-					<td id="td_newPsw_id"><span class="inputAlert" style=""><img src="../../image/face.png"/>密码不能为空</span></td>
+					<td id="td_newPsw_id"><span class="inputAlert" style=""><img src="${dynamicRes}/image/face.png"/>密码不能为空</span></td>
 				</tr>
 				<tr><td></td><td class="inputTip">&ensp;密码长度建议在6-18之间</td></tr>
 				<tr><td>&ensp;</td></tr>
 				<tr>
 					<td class="inputDescription">密码强度:</td>
-					<td><img id="psw_level_indicator" src="../../image/psw_level_none.gif"/></td>
+					<td><img id="psw_level_indicator" src="${dynamicRes}/image/psw_level_none.gif"/></td>
 				</tr>
 				<tr><td></td><td class="inputTip">&ensp;建议使用英文字母加数字或符号的混合密码</td></tr>
 				<tr><td>&ensp;</td></tr>
 				<tr>
 					<td class="inputDescription"><span class="star">*</span>重复密码:</td>
 					<td><s:textfield maxlength="18" name="repeatPsw"  type="password" includeContext="false" onfocus="inputFocus(3)" onblur="inputBlur(3)"></s:textfield></td>
-					<td id="td_repeatPsw_id"><span class="inputAlert" style=""><img src="../../image/face.png"/>两次密码不一致</span></td>
+					<td id="td_repeatPsw_id"><span class="inputAlert" style=""><img src="${dynamicRes}/image/face.png"/>两次密码不一致</span></td>
 				</tr>
 				<tr><td>&ensp;</td></tr>
 				<tr>

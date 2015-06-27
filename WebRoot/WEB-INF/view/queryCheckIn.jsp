@@ -11,7 +11,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>入住信息统计</title>
 	
-	<script src="../script/queryCheckIn.js" charset="UTF-8"></script>
+	<script src="${dynamicRes}/js/queryCheckIn.js" charset="UTF-8"></script>
 
  <style>
 	tr.checkInInfo-item{
